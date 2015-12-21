@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>2CPS南京项目组MRS系统自动化测试JOB</description>
+  <logRotator>
+    <daysToKeep>-1</daysToKeep>
+    <numToKeep>20</numToKeep>
+    <artifactDaysToKeep>-1</artifactDaysToKeep>
+    <artifactNumToKeep>-1</artifactNumToKeep>
+  </logRotator>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <hudson.model.StringParameterDefinition>
+          <name>ID_TA_TASK</name>
+          <description>测试任务主键ID</description>
+          <defaultValue>000000</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>STAGE_ID</name>
+          <description>环境编号</description>
+          <defaultValue>stage3</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>GROUP_ID</name>
+          <description>机组</description>
+          <defaultValue>T</defaultValue>
+        </hudson.model.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.SubversionSCM" plugin="subversion@1.39">
+    <locations>
+      <hudson.scm.SubversionSCM_-ModuleLocation>
+        <remote>http://svn.99bill.net/opt/99billdoc/PUBLIC/POA/QA/TP/SRC/TestAutomation/project/trunk/99bill_QA_TA_FO</remote>
+        <local>.</local>
+      </hudson.scm.SubversionSCM_-ModuleLocation>
+    </locations>
+    <excludedRegions></excludedRegions>
+    <includedRegions></includedRegions>
+    <excludedUsers></excludedUsers>
+    <excludedRevprop></excludedRevprop>
+    <excludedCommitMessages></excludedCommitMessages>
+    <workspaceUpdater class="hudson.scm.subversion.UpdateUpdater"/>
+  </scm>
+  <assignedNode>B2B_FO</assignedNode>
+  <canRoam>false</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <triggers class="vector"/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.BatchFile>
+      <command>cd /D d:\ta
+		del /q d:\ta\tmp
+		svn cleanup
+		svn update
+		java -Djava.ext.dirs=D:\TA\jars\env -jar D:\ta\jars\env\qa_ta_tp_environment.jar %STAGE_ID% %GROUP_ID%</command>
+    </hudson.tasks.BatchFile>
+    <hudson.tasks.Ant plugin="ant@1.1">
+      <targets>runtest</targets>
+      <antName>(Default)</antName>
+      <buildFile>./buildfiles/jenkins_job_ivy.xml</buildFile>
+      <properties>JOB_NAME=$JOB_NAME,BUILD_NUMBER=$BUILD_NUMBER,BUILD_ID=$BUILD_ID</properties>
+    </hudson.tasks.Ant>
+  </builders>
+  <publishers>
+    <hudson.plugins.testng.Publisher plugin="testng-plugin@1.0">
+      <reportFilenamePattern>test-output/testng-results.xml</reportFilenamePattern>
+      <escapeTestDescp>true</escapeTestDescp>
+      <escapeExceptionMsg>true</escapeExceptionMsg>
+    </hudson.plugins.testng.Publisher>
+  </publishers>
+  <buildWrappers/>
+</project>
