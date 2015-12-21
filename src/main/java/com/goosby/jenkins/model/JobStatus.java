@@ -19,7 +19,9 @@ public class JobStatus {
 	}
 	
 	String name;
+	
 	Status status;
+	
 	public JobStatus(String name, Status status) {
 		this.name = name;
 		this.status = status;
