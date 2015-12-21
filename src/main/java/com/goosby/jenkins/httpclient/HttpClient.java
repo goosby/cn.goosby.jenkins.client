@@ -22,7 +22,7 @@ public class HttpClient {
 	private static final Charset UTF_8 = Charset.forName("UTF-8");
 	private final int connectTimeout;
 	private final int readTimeout;
-	//private final Gson gson = new Gson();
+//	private final Gson gson = new Gson();
 	private static final int BUFFER_SIZE = 4096;
 
 	public HttpClient(int connectTimeout, int readTimeout) {
@@ -34,6 +34,8 @@ public class HttpClient {
 		return get(path, TEXT_PLAIN);
 	}
 
+	
+	
 	public HttpResponse get(String path, String accept) {
 		HttpURLConnection connection;
 		try {

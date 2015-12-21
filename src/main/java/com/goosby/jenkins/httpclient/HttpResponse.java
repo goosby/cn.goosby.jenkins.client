@@ -6,6 +6,8 @@ import java.net.MalformedURLException;
 import java.net.SocketTimeoutException;
 
 public class HttpResponse {
+	
+	
 	private final int code;
 	private final String content;
 	private final Exception cause;

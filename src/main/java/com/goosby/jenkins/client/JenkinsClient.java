@@ -4,24 +4,43 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import com.goosby.jenkins.httpclient.HttpClient;
+import com.goosby.jenkins.httpclient.HttpResponse;
 import com.goosby.jenkins.model.JobStatus;
 
-public abstract class AbstractJenkinsClient {
-	
+public class JenkinsClient {
+	public static void main(String[] args){
+		String url = "http://localhost:8080";
+		JenkinsClient client = new JenkinsClient();
+		client.isJenkins(url);
+	}
 	/**
 	 * GET
 	 * 从HTTP RESPONSE 的header中获取是否有 X-Hudson
 	 * @param jenkinsUrl
 	 * @return
 	 */
-	public abstract boolean isJenkins(String jenkinsUrl);
+	public boolean isJenkins(String jenkinsUrl){
+		
+		boolean result = true;
+		HttpClient client = new HttpClient(20*1000, 20*1000);
+		HttpResponse response = client.get(jenkinsUrl);
+		if(null != response && response.getCode() == 200){
+			
+		}else{
+			result = response.couldNotConnect();
+		}
+		return result;
+	};
 	
 	/**
 	 * 
 	 * GET
 	 * @return
 	 */
-	public abstract String getJenkinsVersion();
+	public  String getJenkinsVersion(){
+		return null;
+	};
 	
 	/**
 	 * jenkinsBaseURL+ "/createItem?name=" + jobName
@@ -29,7 +48,9 @@ public abstract class AbstractJenkinsClient {
 	 * @param xmlConfig
 	 * @return
 	 */
-	public abstract boolean createJob(String jobName,String xmlConfig);
+	public  boolean createJob(String jobName,String xmlConfig){
+		return true;
+	};
 	
 	/**
 	 * POST
@@ -38,7 +59,9 @@ public abstract class AbstractJenkinsClient {
 	 * @param crumbFlag
 	 * @return
 	 */
-	public abstract boolean createJob(String jobName, String jobXml, Boolean crumbFlag);
+	public  boolean createJob(String jobName, String jobXml, Boolean crumbFlag){
+		return true;
+	};
 	
 	/**
 	 * POST
@@ -47,7 +70,9 @@ public abstract class AbstractJenkinsClient {
 	 * @param updateXml
 	 * @return
 	 */
-	public abstract boolean updateJob(String jobName,String updateXml);
+	public  boolean updateJob(String jobName,String updateXml){
+		return true;
+	};
 	
 	/**
 	 * POST
@@ -59,7 +84,9 @@ public abstract class AbstractJenkinsClient {
 	 * @param newJobName
 	 * @return
 	 */
-	public abstract boolean copyJob(String originJobName, String newJobName);
+	public  boolean copyJob(String originJobName, String newJobName){
+		return true;
+	};
 	
 	/**
 	 * POST
@@ -67,7 +94,9 @@ public abstract class AbstractJenkinsClient {
 	 * @param jobName
 	 * @return
 	 */
-	public abstract boolean deleteJob(String jobName);
+	public  boolean deleteJob(String jobName){
+		return true;
+	};
 	
 	/**
 	 * POST
@@ -75,7 +104,9 @@ public abstract class AbstractJenkinsClient {
 	 * @param jobName
 	 * @return
 	 */
-	public abstract boolean enableJob(String jobName);
+	public  boolean enableJob(String jobName){
+		return true;
+	};
 	
 	/**
 	 * POST
@@ -83,7 +114,9 @@ public abstract class AbstractJenkinsClient {
 	 * @param jobName
 	 * @return
 	 */
-	public abstract boolean disableJob(String jobName);
+	public  boolean disableJob(String jobName){
+		return true;
+	};
 	
 	/**
 	 * POST
@@ -91,7 +124,9 @@ public abstract class AbstractJenkinsClient {
 	 * @param jobName
 	 * @return
 	 */
-	public abstract String buidlJob(String jobName);
+	public  String buidlJob(String jobName){
+		return null;
+	};
 	/**
 	 * GET
 	 * jenkinsBaseURL + "/job/"+ jobName+ "/buildWithParameters?param1=value1
@@ -99,14 +134,18 @@ public abstract class AbstractJenkinsClient {
 	 * @param parameters
 	 * @return
 	 */
-	public abstract String buildJobWithParameters(String jobName,Map<String,String> parameters);
+	public  String buildJobWithParameters(String jobName,Map<String,String> parameters){
+		return null;
+	};
 	
 	/**
 	 * jenkinsBaseURL + "/job/"+ jobName+ "/lastSuccessfulBuild/buildTimestamp?format=dd/MM/yyyy"
 	 * @param jobName
 	 * @return
 	 */
-	public abstract String getLastSuccessfullBuild(String jobName);
+	public  String getLastSuccessfullBuild(String jobName){
+		return null;
+	};
 	
 	/**
 	 * GET
@@ -116,7 +155,9 @@ public abstract class AbstractJenkinsClient {
 	 * @throws HttpException
 	 * @throws DocumentException
 	 */
-	public abstract List<JobStatus> readJobStatus();
+	public  List<JobStatus> readJobStatus(){
+		return null;
+	};
 			//throws IOException, HttpException,DocumentException {
 //		List<JobStatus> jobStatus = new ArrayList<JobStatus>();
 //		URL url = new URL("" + "/api/xml");
@@ -140,7 +181,9 @@ public abstract class AbstractJenkinsClient {
 	 * @param jobName
 	 * @return
 	 */
-	public abstract String abortBuildJob(String jobName);
+	public  String abortBuildJob(String jobName){
+		return null;
+	};
 	
 	/**
 	 * 
@@ -148,20 +191,26 @@ public abstract class AbstractJenkinsClient {
 	 * @param buildNumber
 	 * @return
 	 */
-	public abstract String abortBuilJob(String jobName,long buildNumber);
+	public  String abortBuilJob(String jobName,long buildNumber){
+		return null;
+	};
 	
 	/**
 	 * 
 	 * @param jobName
 	 * @return
 	 */
-	public abstract String getJobDetailJSON(String jobName);
+	public  String getJobDetailJSON(String jobName){
+		return null;
+	};
 	
 	/**
 	 * GET  获取jenkins集群信息（主，从信息）
 	 * computer/api/json
 	 * @return
 	 */
-	public abstract String getJenkinsColony();
+	public  String getJenkinsColony(){
+		return null;
+	};
 	
 }
