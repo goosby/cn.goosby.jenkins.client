@@ -26,6 +26,7 @@ public abstract class AbstractJenkinsAPI {
 	public abstract boolean isJenkinsUrl(String jenkinsUrl);
 	
 	/**
+	 * 
 	 * GET
 	 * @return
 	 */
