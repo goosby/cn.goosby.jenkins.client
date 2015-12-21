@@ -52,7 +52,7 @@ import org.eclipse.jetty.util.B64Code;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
+import com.goosby.jenkins.http.ServerTestCase
 import com.goosby.jenkins.http.ServerTestCase.RequestHandler;
 import com.goosby.jenkins.utils.HttpRequest;
 import com.goosby.jenkins.utils.HttpRequest.ConnectionFactory;
