@@ -15,7 +15,7 @@ import org.dom4j.io.SAXReader;
 import com.goosby.jenkins.model.JobStatus;
 import com.goosby.jenkins.model.JobStatus.Status;
 
-public abstract class AbstractJenkinsAPI {
+public abstract class AbstractJenkinsClient {
 	
 	/**
 	 * GET
@@ -23,7 +23,7 @@ public abstract class AbstractJenkinsAPI {
 	 * @param jenkinsUrl
 	 * @return
 	 */
-	public abstract boolean isJenkinsUrl(String jenkinsUrl);
+	public abstract boolean isJenkins(String jenkinsUrl);
 	
 	/**
 	 * 
@@ -166,11 +166,10 @@ public abstract class AbstractJenkinsAPI {
 	public abstract String getJobDetailJSON(String jobName);
 	
 	/**
-	 * 
-	 * @param jobName
+	 * GET  获取jenkins集群信息（主，从信息）
+	 * computer/api/json
 	 * @return
 	 */
-	public abstract String getJobDetailXML(String jobName);
-	
+	public abstract String getJenkinsColony();
 	
 }
