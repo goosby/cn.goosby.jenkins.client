@@ -1,19 +1,10 @@
 package com.goosby.jenkins.client;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.httpclient.HttpException;
-import org.dom4j.Document;
-import org.dom4j.DocumentException;
-import org.dom4j.Element;
-import org.dom4j.io.SAXReader;
-
 import com.goosby.jenkins.model.JobStatus;
-import com.goosby.jenkins.model.JobStatus.Status;
 
 public abstract class AbstractJenkinsClient {
 	
@@ -125,23 +116,24 @@ public abstract class AbstractJenkinsClient {
 	 * @throws HttpException
 	 * @throws DocumentException
 	 */
-	public List<JobStatus> readJobStatus() throws IOException, HttpException,DocumentException {
-		List<JobStatus> jobStatus = new ArrayList<JobStatus>();
-		URL url = new URL("" + "/api/xml");
-		Document dom = new SAXReader().read(url);
-		Element element = dom.getRootElement();
-		if(element == null){
-			return null;
-		}
-		List<Element> elementList = element.elements("job");
-		if(null == elementList || elementList.size() < 1){
-			return null;
-		}
-		for (Element job : elementList) {
-			jobStatus.add(new JobStatus(job.elementText("name"), Status.create(job.elementText("color"))));
-		}
-		return jobStatus;
-	}
+	public abstract List<JobStatus> readJobStatus();
+			//throws IOException, HttpException,DocumentException {
+//		List<JobStatus> jobStatus = new ArrayList<JobStatus>();
+//		URL url = new URL("" + "/api/xml");
+//		Document dom = new SAXReader().read(url);
+//		Element element = dom.getRootElement();
+//		if(element == null){
+//			return null;
+//		}
+//		List<Element> elementList = element.elements("job");
+//		if(null == elementList || elementList.size() < 1){
+//			return null;
+//		}
+//		for (Element job : elementList) {
+//			jobStatus.add(new JobStatus(job.elementText("name"), Status.create(job.elementText("color"))));
+//		}
+//		return jobStatus;
+//	}
 	
 	/**
 	 * 
