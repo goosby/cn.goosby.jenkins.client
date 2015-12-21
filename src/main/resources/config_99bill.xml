@@ -54,10 +54,10 @@
   <builders>
     <hudson.tasks.BatchFile>
       <command>cd /D d:\ta
-		del /q d:\ta\tmp
-		svn cleanup
-		svn update
-		java -Djava.ext.dirs=D:\TA\jars\env -jar D:\ta\jars\env\qa_ta_tp_environment.jar %STAGE_ID% %GROUP_ID%</command>
+			del /q d:\ta\tmp
+			svn cleanup
+			svn update
+			java -Djava.ext.dirs=D:\TA\jars\env -jar D:\ta\jars\env\qa_ta_tp_environment.jar %STAGE_ID% %GROUP_ID%</command>
     </hudson.tasks.BatchFile>
     <hudson.tasks.Ant plugin="ant@1.1">
       <targets>runtest</targets>
