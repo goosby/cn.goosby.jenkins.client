@@ -1,32 +1,53 @@
 package com.goosby.jenkins.client;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.http.HttpException;
 
 import com.goosby.jenkins.httpclient.HttpClient;
 import com.goosby.jenkins.model.JobStatus;
 
 public class JenkinsClient {
+	private static BufferedReader reader;
+
 	public static void main(String[] args){
 		String url = "http://localhost:8080";
+		File file = new File("src/main/resources/config_99bill.xml");
+		StringBuilder xmlBuilder = new StringBuilder();
+		try {
+			reader = new BufferedReader(new FileReader(file));
+			String line = null;
+			while((line = reader.readLine()) != null){
+				xmlBuilder.append(line);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		JenkinsClient client = new JenkinsClient();
-		client.isJenkins(url,"X-Jenkins");
+		client.createJob(url+"/createItem?name=test", xmlBuilder.toString());
 	}
 	/**
 	 * GET
-	 * 从HTTP RESPONSE 的header中获取是否有 X-Hudson
+	 * 从HTTP RESPONSE 的header中获取是否有 X-Jenkins
+	 * 
 	 * @param jenkinsUrl
+	 * @param headerName
 	 * @return
 	 */
 	public boolean isJenkins(String jenkinsUrl,String headerName){
 		
 		boolean result = true;
-		HttpClient client = new HttpClient();
-		String jenkinsVersion = client.getHeaderByName(jenkinsUrl, headerName);
-		if(null == jenkinsVersion || "".equals(jenkinsVersion)){
-			result = false;
-		}
+//		HttpClient client = new HttpClient();
+//		String jenkinsVersion = client.getHeaderByName(jenkinsUrl, headerName);
+//		if(null == jenkinsVersion || "".equals(jenkinsVersion)){
+//			result = false;
+//		}
 		return result;
 	};
 	
@@ -38,9 +59,9 @@ public class JenkinsClient {
 	 * @return
 	 */
 	public  String getJenkinsVersion(String jenkinsUrl,String headerName){
-		HttpClient client = new HttpClient();
-		String jenkinsVersion = client.getHeaderByName(jenkinsUrl, headerName);
-		return jenkinsVersion;
+//		HttpClient client = new HttpClient();
+//		String jenkinsVersion = client.getHeaderByName(jenkinsUrl, headerName);
+		return "";
 	};
 	
 	/**
@@ -50,6 +71,8 @@ public class JenkinsClient {
 	 * @return
 	 */
 	public  boolean createJob(String jobName,String xmlConfig){
+		String result = HttpClient.doPost(jobName, xmlConfig);
+		System.out.println(result);
 		return true;
 	};
 	

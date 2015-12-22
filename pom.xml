@@ -16,45 +16,10 @@
   </properties>
 
   <dependencies>
-  	<dependency>
-		<groupId>dom4j</groupId>
-		<artifactId>dom4j</artifactId>
-		<version>1.6.1</version>
-	</dependency>
 	<dependency>
-		<groupId>commons-httpclient</groupId>
-		<artifactId>commons-httpclient</artifactId>
-		<version>3.1</version>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>httpclient</artifactId>
+		<version>4.5.1</version>
 	</dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.11</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-		<groupId>javax.servlet</groupId>
-		<artifactId>servlet-api</artifactId>
-		<version>2.5</version>
-	</dependency>
-        <dependency>
-      <groupId>org.eclipse.jetty</groupId>
-      <artifactId>jetty-server</artifactId>
-      <version>${jetty.version}</version>
-      <scope>test</scope>
-    </dependency>
-    <!-- Used to test proxy -->
-<!--     <dependency> -->
-<!--       <groupId>org.eclipse.jetty</groupId> -->
-<!--       <artifactId>jetty-servlet</artifactId> -->
-<!--       <version>${jetty.version}</version> -->
-<!--       <scope>test</scope> -->
-<!--     </dependency> -->
-<!--     <dependency> -->
-<!--       <groupId>org.eclipse.jetty</groupId> -->
-<!--       <artifactId>jetty-servlets</artifactId> -->
-<!--       <version>${jetty.version}</version> -->
-<!--       <scope>test</scope> -->
-<!--     </dependency> -->
   </dependencies>
 </project>
