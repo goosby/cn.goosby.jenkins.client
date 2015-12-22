@@ -5,14 +5,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.goosby.jenkins.httpclient.HttpClient;
-import com.goosby.jenkins.httpclient.HttpResponse;
 import com.goosby.jenkins.model.JobStatus;
 
 public class JenkinsClient {
 	public static void main(String[] args){
 		String url = "http://localhost:8080";
 		JenkinsClient client = new JenkinsClient();
-		client.isJenkins(url);
+		client.isJenkins(url,"X-Jenkins");
 	}
 	/**
 	 * GET
@@ -20,15 +19,13 @@ public class JenkinsClient {
 	 * @param jenkinsUrl
 	 * @return
 	 */
-	public boolean isJenkins(String jenkinsUrl){
+	public boolean isJenkins(String jenkinsUrl,String headerName){
 		
 		boolean result = true;
-		HttpClient client = new HttpClient(20*1000, 20*1000);
-		HttpResponse response = client.get(jenkinsUrl);
-		if(null != response && response.getCode() == 200){
-			
-		}else{
-			result = response.couldNotConnect();
+		HttpClient client = new HttpClient();
+		String jenkinsVersion = client.getHeaderByName(jenkinsUrl, headerName);
+		if(null == jenkinsVersion || "".equals(jenkinsVersion)){
+			result = false;
 		}
 		return result;
 	};
@@ -36,10 +33,14 @@ public class JenkinsClient {
 	/**
 	 * 
 	 * GET
+	 * @param jenkinsUrl
+	 * @param headerName
 	 * @return
 	 */
-	public  String getJenkinsVersion(){
-		return null;
+	public  String getJenkinsVersion(String jenkinsUrl,String headerName){
+		HttpClient client = new HttpClient();
+		String jenkinsVersion = client.getHeaderByName(jenkinsUrl, headerName);
+		return jenkinsVersion;
 	};
 	
 	/**
