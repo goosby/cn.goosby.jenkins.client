@@ -72,24 +72,24 @@ public class HttpClient {
 	 * @param xmlBody
 	 * @return
 	 */
-	public static String postWithXML(String url,String xmlBody){
-		
+	public static int post(String url,String xmlBody){
 		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 		HttpPost method = new HttpPost(url);
 		StringEntity entity = null;
 		HttpResponse response = null;
 		try {
-			entity = new StringEntity(xmlBody,ContentType.create("text/xml", "utf-8"));
-			method.setEntity(entity);
+			if(null != xmlBody && !"".equals(xmlBody)){
+				entity = new StringEntity(xmlBody,ContentType.create("text/xml", "utf-8"));
+				method.setEntity(entity);
+			}
 			response = httpClient.execute(method);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if(null != response && response.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
-			return response.getEntity().toString();
-		}
+		int code = response.getStatusLine().getStatusCode();
+		System.out.println("---- -- :" + code);
+		return code;
 		
-		return null;
 	}
 	
 	

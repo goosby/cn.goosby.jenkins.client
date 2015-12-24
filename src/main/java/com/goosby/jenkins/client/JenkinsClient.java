@@ -18,6 +18,14 @@ public class JenkinsClient {
 	 * @param url
 	 */
 	public JenkinsClient(String url){
+		if(url.endsWith("/")){
+			jenkinsURL = url.substring(0, url.length()-1);
+		}else{
+			jenkinsURL = url;
+		}
+	}
+	
+	public JenkinsClient(String url,String username,String password){
 		if(!url.endsWith("/")){
 			jenkinsURL = url.substring(0, url.length()-1);
 		}else{
@@ -26,23 +34,9 @@ public class JenkinsClient {
 	}
 	
 	public static void main(String[] args){
-		/*String url = "http://192.168.138.62:8081/jenkins/";
+		String url = "http://localhost:8080/";
 		JenkinsClient client = new JenkinsClient(url);
-		client.isJenkins(url, " X-Jenkins");
-		File file = new File("src/main/resources/config_99bill.xml");
-		StringBuilder xmlBuilder = new StringBuilder();
-		try {
-			reader = new BufferedReader(new FileReader(file));
-			String line = null;
-			while((line = reader.readLine()) != null){
-				xmlBuilder.append(line);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		JenkinsClient client = new JenkinsClient();
-		client.createJob(url+"/createItem?name=test", xmlBuilder.toString());*/
+		client.deleteJob("jerkins-svn");
 	}
 	
 	/**
@@ -54,8 +48,8 @@ public class JenkinsClient {
 	 */
 	public  boolean createJob(String jobName,String xmlConfig){
 		String url = jenkinsURL+"/createItem?name=" + jobName;
-		String result = HttpClient.postWithXML(url,xmlConfig);
-		return true;
+		int code = HttpClient.post(url,xmlConfig);
+		return (200 == code) ? true : false;
 	};
 	
 	
@@ -68,8 +62,8 @@ public class JenkinsClient {
 	 */
 	public  boolean updateJob(String jobName,String updateXml){
 		String url = jenkinsURL + "/job/"+ jobName + "/config.xml";
-		HttpClient.postWithXML(url,updateXml);
-		return true;
+		int code = HttpClient.post(url,updateXml);
+		return (200 == code )? true : false;
 	};
 	
 	/**
@@ -86,16 +80,7 @@ public class JenkinsClient {
 	public  boolean copyJob(String originJobName, String newJobName){
 		return true;
 	};
-	
-	/**
-	 * 触发JOB
-	 * 		jenkinsBaseURL + /job/" + name + "/build
-	 * @param jobName
-	 * @return
-	 */
-	public boolean triggerJob(String jobName) {
-		return true;
-	}
+
 	/**
 	 * POST
 	 * jenkinsBaseURL + "/job/"+ jobName + "/doDelete"
@@ -103,7 +88,9 @@ public class JenkinsClient {
 	 * @return
 	 */
 	public  boolean deleteJob(String jobName){
-		return true;
+		String url = jenkinsURL + "/job/" + jobName + "/doDelete";
+		int code = HttpClient.post(url, null);
+		return (302 == code) ? true : false;
 	};
 	
 	/**
@@ -132,8 +119,10 @@ public class JenkinsClient {
 	 * @param jobName
 	 * @return
 	 */
-	public  String buidlJob(String jobName){
-		return null;
+	public  boolean buidlJob(String jobName){
+		String url = jenkinsURL+"/job/" + jobName + "/build";
+		int code = HttpClient.post(url, null);
+		return (201 == code) ? true : false;
 	};
 	/**
 	 * GET
