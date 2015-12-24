@@ -6,15 +6,15 @@ public class FirstBuild {
 	private String url;
 
 	public void setNumber(int number){
-	this.number = number;
+		this.number = number;
 	}
 	public int getNumber(){
-	return this.number;
+		return this.number;
 	}
 	public void setUrl(String url){
-	this.url = url;
+		this.url = url;
 	}
 	public String getUrl(){
-	return this.url;
+		return this.url;
 	}
 }

@@ -8,21 +8,21 @@ public class HealthReport {
 	private int score;
 
 	public void setDescription(String description){
-	this.description = description;
+		this.description = description;
 	}
 	public String getDescription(){
-	return this.description;
+		return this.description;
 	}
 	public void setIconUrl(String iconUrl){
-	this.iconUrl = iconUrl;
+		this.iconUrl = iconUrl;
 	}
 	public String getIconUrl(){
-	return this.iconUrl;
+		return this.iconUrl;
 	}
 	public void setScore(int score){
-	this.score = score;
+		this.score = score;
 	}
 	public int getScore(){
-	return this.score;
+		return this.score;
 	}
 }

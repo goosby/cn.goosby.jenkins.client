@@ -1,8 +1,5 @@
 package com.goosby.jenkins.client;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -13,10 +10,25 @@ import com.goosby.jenkins.httpclient.HttpClient;
 import com.goosby.jenkins.model.JobStatus;
 
 public class JenkinsClient {
-	private static BufferedReader reader;
-
+	
+	public static String jenkinsURL;
+	
+	/**
+	 * url格式：http://localhost:8080/jenkins
+	 * @param url
+	 */
+	public JenkinsClient(String url){
+		if(!url.endsWith("/")){
+			jenkinsURL = url.substring(0, url.length()-1);
+		}else{
+			jenkinsURL = url;
+		}
+	}
+	
 	public static void main(String[] args){
-		String url = "http://localhost:8080";
+		/*String url = "http://192.168.138.62:8081/jenkins/";
+		JenkinsClient client = new JenkinsClient(url);
+		client.isJenkins(url, " X-Jenkins");
 		File file = new File("src/main/resources/config_99bill.xml");
 		StringBuilder xmlBuilder = new StringBuilder();
 		try {
@@ -30,76 +42,39 @@ public class JenkinsClient {
 		}
 		
 		JenkinsClient client = new JenkinsClient();
-		client.createJob(url+"/createItem?name=test", xmlBuilder.toString());
+		client.createJob(url+"/createItem?name=test", xmlBuilder.toString());*/
 	}
-	/**
-	 * GET
-	 * 从HTTP RESPONSE 的header中获取是否有 X-Jenkins
-	 * 
-	 * @param jenkinsUrl
-	 * @param headerName
-	 * @return
-	 */
-	public boolean isJenkins(String jenkinsUrl,String headerName){
-		
-		boolean result = true;
-//		HttpClient client = new HttpClient();
-//		String jenkinsVersion = client.getHeaderByName(jenkinsUrl, headerName);
-//		if(null == jenkinsVersion || "".equals(jenkinsVersion)){
-//			result = false;
-//		}
-		return result;
-	};
 	
 	/**
-	 * 
-	 * GET
-	 * @param jenkinsUrl
-	 * @param headerName
-	 * @return
-	 */
-	public  String getJenkinsVersion(String jenkinsUrl,String headerName){
-//		HttpClient client = new HttpClient();
-//		String jenkinsVersion = client.getHeaderByName(jenkinsUrl, headerName);
-		return "";
-	};
-	
-	/**
+	 * 创建JOB
 	 * jenkinsBaseURL+ "/createItem?name=" + jobName
 	 * @param jobName
 	 * @param xmlConfig
 	 * @return
 	 */
 	public  boolean createJob(String jobName,String xmlConfig){
-		String result = HttpClient.doPost(jobName, xmlConfig);
-		System.out.println(result);
+		String url = jenkinsURL+"/createItem?name=" + jobName;
+		String result = HttpClient.postWithXML(url,xmlConfig);
 		return true;
 	};
 	
-	/**
-	 * POST
-	 * @param jobName
-	 * @param jobXml
-	 * @param crumbFlag
-	 * @return
-	 */
-	public  boolean createJob(String jobName, String jobXml, Boolean crumbFlag){
-		return true;
-	};
 	
 	/**
-	 * POST
+	 * POST 更新job
 	 * jenkinsBaseURL + "/job/"+ jobName + "/config.xml"
 	 * @param jobName
 	 * @param updateXml
 	 * @return
 	 */
 	public  boolean updateJob(String jobName,String updateXml){
+		String url = jenkinsURL + "/job/"+ jobName + "/config.xml";
+		HttpClient.postWithXML(url,updateXml);
 		return true;
 	};
 	
 	/**
 	 * POST
+	 * 			复制JOB
 	 * jenkinsBaseURL + "/createItem"
 	 * NameValuePair n1 = new NameValuePair("name", newJobName);
 		NameValuePair n2 = new NameValuePair("mode", "copy");
@@ -112,6 +87,15 @@ public class JenkinsClient {
 		return true;
 	};
 	
+	/**
+	 * 触发JOB
+	 * 		jenkinsBaseURL + /job/" + name + "/build
+	 * @param jobName
+	 * @return
+	 */
+	public boolean triggerJob(String jobName) {
+		return true;
+	}
 	/**
 	 * POST
 	 * jenkinsBaseURL + "/job/"+ jobName + "/doDelete"
@@ -179,7 +163,7 @@ public class JenkinsClient {
 	 * @throws HttpException
 	 * @throws DocumentException
 	 */
-	public  List<JobStatus> readJobStatus(){
+	public  List<JobStatus> getJobStatus(String jobName){
 		return null;
 	};
 			//throws IOException, HttpException,DocumentException {

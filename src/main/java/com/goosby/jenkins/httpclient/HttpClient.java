@@ -1,7 +1,9 @@
 package com.goosby.jenkins.httpclient;
 
 import java.io.IOException;
+import java.util.Map;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -15,8 +17,30 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 public class HttpClient {
 	
-	public static String doGet(String url){
+	
+	public static String getHeader(String url,String headerName){
 		
+		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+		HttpGet method = new HttpGet(url);
+		try {
+			HttpResponse response = httpClient.execute(method);
+			if(response != null && response.getStatusLine().getStatusCode() == HttpStatus.SC_OK){
+				Header[] headers = response.getHeaders(headerName);
+				System.out.println(headers);
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	/**
+	 * 
+	 * @param url
+	 * @return
+	 */
+	public static String get(String url,Map<String,String> params){
 		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 		HttpGet method = new HttpGet(url);
 		HttpResponse response = null;
@@ -42,14 +66,20 @@ public class HttpClient {
 		return entity.toString();
 	}
 	
-	
-	public static String doPost(String url,String body){
+	/**
+	 * 
+	 * @param url
+	 * @param xmlBody
+	 * @return
+	 */
+	public static String postWithXML(String url,String xmlBody){
+		
 		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 		HttpPost method = new HttpPost(url);
 		StringEntity entity = null;
 		HttpResponse response = null;
 		try {
-			entity = new StringEntity(body,ContentType.create("text/xml", "utf-8"));
+			entity = new StringEntity(xmlBody,ContentType.create("text/xml", "utf-8"));
 			method.setEntity(entity);
 			response = httpClient.execute(method);
 		} catch (Exception e) {

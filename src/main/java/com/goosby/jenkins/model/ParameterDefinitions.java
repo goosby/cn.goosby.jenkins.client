@@ -10,27 +10,27 @@ public class ParameterDefinitions {
 	private String type;
 
 	public void setDefaultParameterValue(DefaultParameterValue defaultParameterValue){
-	this.defaultParameterValue = defaultParameterValue;
+		this.defaultParameterValue = defaultParameterValue;
 	}
 	public DefaultParameterValue getDefaultParameterValue(){
-	return this.defaultParameterValue;
+		return this.defaultParameterValue;
 	}
 	public void setDescription(String description){
-	this.description = description;
+		this.description = description;
 	}
 	public String getDescription(){
-	return this.description;
+		return this.description;
 	}
 	public void setName(String name){
-	this.name = name;
+		this.name = name;
 	}
 	public String getName(){
-	return this.name;
+		return this.name;
 	}
 	public void setType(String type){
-	this.type = type;
+		this.type = type;
 	}
 	public String getType(){
-	return this.type;
+		return this.type;
 	}
 }
