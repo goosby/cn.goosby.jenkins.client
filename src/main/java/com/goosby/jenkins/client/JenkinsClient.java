@@ -1,14 +1,10 @@
 package com.goosby.jenkins.client;
 
-import java.io.IOException;
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
-
-import org.apache.http.HttpException;
 
 import com.goosby.jenkins.httpclient.HttpClient;
 import com.goosby.jenkins.httpclient.JenkinsResponse;
-import com.goosby.jenkins.model.JobStatus;
 
 public class JenkinsClient {
 	
@@ -37,7 +33,7 @@ public class JenkinsClient {
 	public static void main(String[] args){
 		String url = "http://192.168.138.62:8081/jenkins";
 		JenkinsClient client = new JenkinsClient(url);
-		String result = client.getJobDetailJSON("compile_qa_ta_ob_db");
+		boolean result = client.abortBuildJob("OB_FGW", 999);
 		System.out.println(result);
 	}
 	
@@ -82,7 +78,21 @@ public class JenkinsClient {
 	public  boolean copyJob(String originJobName, String newJobName){
 		return true;
 	};
-
+	
+	/**
+	 * 
+	 * @param originJobName
+	 * @param newJobName
+	 * @return
+	 */
+	public boolean renameJob(String originJobName, String newJobName){
+		String url = jenkinsURL + "/job/" + originJobName + "/doRename";
+		Map<String,String> param = new HashMap<String, String>();
+		param.put("newName", newJobName);
+		JenkinsResponse response = HttpClient.postWithParameters(url, param);
+		return (302 == response.getResponseCode()) ? true : false;
+	}
+	
 	/**
 	 * POST
 	 * jenkinsBaseURL + "/job/"+ jobName + "/doDelete"
@@ -144,62 +154,40 @@ public class JenkinsClient {
 	};
 	
 	/**
-	 * 
-	 * @param jobName
-	 * @return
-	 */
-	public  String abortBuildJob(String jobName){
-		return null;
-	};
-	
-	/**
-	 * 
+	 * 获取构建信息
 	 * @param jobName
 	 * @param buildNumber
 	 * @return
 	 */
-	public  String abortBuilJob(String jobName,long buildNumber){
-		return null;
-	};
+	public String getBuildDetails(String jobName, long buildNumber){
+		String url = jenkinsURL + "/job/" + jobName + "/" + buildNumber;
+		JenkinsResponse response = HttpClient.getWithOutParameter(url);
+		return response.getResponseBody();
+	}
+	
+	/**
+	 *  检查是否正在构建
+	 * @param jobName
+	 * @param buildNumber
+	 * @return
+	 */
+	public boolean isBuilding(String jobName,long buildNumber){
+		
+		return true;
+	}
+	
 	
 	/**
 	 * 
-	 * 		jenkinsBaseURL + "/job/"+ jobName+ "/lastSuccessfulBuild/buildTimestamp?format=dd/MM/yyyy"
 	 * @param jobName
 	 * @return
 	 */
-	public  String getLastSuccessfullBuild(String jobName){
-		return null;
+	public  boolean abortBuildJob(String jobName,long buildNumber ){
+		String url = jenkinsURL + "/job/" + jobName + "/" + buildNumber + "/stop";
+		JenkinsResponse response = HttpClient.postWithOutParameters(url);
+		return (302 == response.getResponseCode()) ? true : false;
 	};
 	
-	/**
-	 * GET
-	 * 		jenkinsBaseURL + "/api/xml"
-	 * @return
-	 * @throws IOException
-	 * @throws HttpException
-	 * @throws DocumentException
-	 */
-	public  List<JobStatus> getJobStatus(String jobName){
-		return null;
-	};
-			//throws IOException, HttpException,DocumentException {
-//		List<JobStatus> jobStatus = new ArrayList<JobStatus>();
-//		URL url = new URL("" + "/api/xml");
-//		Document dom = new SAXReader().read(url);
-//		Element element = dom.getRootElement();
-//		if(element == null){
-//			return null;
-//		}
-//		List<Element> elementList = element.elements("job");
-//		if(null == elementList || elementList.size() < 1){
-//			return null;
-//		}
-//		for (Element job : elementList) {
-//			jobStatus.add(new JobStatus(job.elementText("name"), Status.create(job.elementText("color"))));
-//		}
-//		return jobStatus;
-//	}
 	
 	/**
 	 * GET 	获取jobDetails
@@ -208,7 +196,7 @@ public class JenkinsClient {
 	 * @return
 	 */
 	public  String getJobDetailJSON(String jobName){
-		String url = jenkinsURL+"/job/" + jobName + "/api/json";
+		String url = jenkinsURL + "/job/" + jobName + "/api/json";
 		JenkinsResponse response = HttpClient.getWithOutParameter(url);
 		return response.getResponseBody();
 	};
