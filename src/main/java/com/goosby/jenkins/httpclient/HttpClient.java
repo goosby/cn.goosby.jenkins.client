@@ -13,6 +13,7 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
 
 public class HttpClient {
 	
@@ -40,7 +41,7 @@ public class HttpClient {
 				response = httpClient.execute(method);
 				if(response != null){
 					code = response.getStatusLine().getStatusCode();
-					jenkinsResponse = response.getEntity().toString();
+					jenkinsResponse = EntityUtils.toString(response.getEntity());//.toString();
 				}
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
@@ -87,7 +88,7 @@ public class HttpClient {
 			response = httpClient.execute(method);
 			if(response != null){
 				code = response.getStatusLine().getStatusCode();
-				jenkinsResponse = response.getEntity().toString();
+				jenkinsResponse = EntityUtils.toString(response.getEntity());//.toString();
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
@@ -112,7 +113,7 @@ public class HttpClient {
 			response = httpClient.execute(method);
 			if(response != null){
 				code = response.getStatusLine().getStatusCode();
-				jenkinsResponse = response.getEntity().toString();
+				jenkinsResponse = EntityUtils.toString(response.getEntity());//.toString();
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
@@ -155,7 +156,7 @@ public class HttpClient {
 			response = httpClient.execute(method);
 			if(response != null){
 				code = response.getStatusLine().getStatusCode();
-				jenkinsResponse = response.getEntity().toString();
+				jenkinsResponse = EntityUtils.toString(response.getEntity());;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

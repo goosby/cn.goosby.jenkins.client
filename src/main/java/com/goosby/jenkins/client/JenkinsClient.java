@@ -37,7 +37,8 @@ public class JenkinsClient {
 	public static void main(String[] args){
 		String url = "http://192.168.138.62:8081/jenkins";
 		JenkinsClient client = new JenkinsClient(url);
-		client.buildJobWithParameters("qa_ta_is_oss",null);
+		String result = client.getJenkinsColony();
+		System.out.println(result);
 	}
 	
 	/**
@@ -207,8 +208,9 @@ public class JenkinsClient {
 	 * @return
 	 */
 	public  String getJobDetailJSON(String jobName){
-		
-		return null;
+		String url = jenkinsURL+"/job/" + jobName + "/api/json";
+		JenkinsResponse response = HttpClient.getWithOutParameter(url);
+		return response.getResponseBody();
 	};
 	
 	/**
@@ -217,7 +219,9 @@ public class JenkinsClient {
 	 * @return
 	 */
 	public  String getJenkinsColony(){
-		return null;
+		String url = jenkinsURL + "/computer/api/json";
+		JenkinsResponse response = HttpClient.getWithOutParameter(url);
+		return response.getResponseBody();
 	};
 	
 }
