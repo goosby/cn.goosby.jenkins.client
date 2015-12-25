@@ -11,9 +11,10 @@ public class JenkinsClient {
 	public static String jenkinsURL;
 	
 	/**
-	 * url格式：http://localhost:8080/jenkins
+	 * url格式：	http://localhost:8080/jenkins
 	 * @param url
 	 */
+	
 	public JenkinsClient(String url){
 		if(url.endsWith("/")){
 			jenkinsURL = url.substring(0, url.length()-1);
@@ -119,7 +120,7 @@ public class JenkinsClient {
 	
 	/**
 	 * POST    禁用项目
-	 * jenkinsBaseURL + "/job/"+ jobName + "/disable"
+	 * 		jenkinsBaseURL + "/job/"+ jobName + "/disable"
 	 * @param jobName
 	 * @return
 	 */
