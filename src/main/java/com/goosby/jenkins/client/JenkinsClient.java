@@ -34,9 +34,9 @@ public class JenkinsClient {
 	}
 	
 	public static void main(String[] args){
-		String url = "http://localhost:8080/";
+		String url = "http://192.168.138.62:8081/jenkins";
 		JenkinsClient client = new JenkinsClient(url);
-		client.deleteJob("jerkins-svn");
+		client.enableJob("qa_ta_springdemo");
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public class JenkinsClient {
 	 */
 	public  boolean createJob(String jobName,String xmlConfig){
 		String url = jenkinsURL+"/createItem?name=" + jobName;
-		int code = HttpClient.post(url,xmlConfig);
+		int code = HttpClient.postBodyWithXML(url,xmlConfig);
 		return (200 == code) ? true : false;
 	};
 	
@@ -62,7 +62,7 @@ public class JenkinsClient {
 	 */
 	public  boolean updateJob(String jobName,String updateXml){
 		String url = jenkinsURL + "/job/"+ jobName + "/config.xml";
-		int code = HttpClient.post(url,updateXml);
+		int code = HttpClient.postBodyWithXML(url,updateXml);
 		return (200 == code )? true : false;
 	};
 	
@@ -89,28 +89,32 @@ public class JenkinsClient {
 	 */
 	public  boolean deleteJob(String jobName){
 		String url = jenkinsURL + "/job/" + jobName + "/doDelete";
-		int code = HttpClient.post(url, null);
+		int code = HttpClient.postWithOutParameters(url);
 		return (302 == code) ? true : false;
 	};
 	
 	/**
-	 * POST
+	 * POST		启用项目
 	 * jenkinsBaseURL + "/job/"+ jobName + "/enable"
 	 * @param jobName
 	 * @return
 	 */
 	public  boolean enableJob(String jobName){
-		return true;
+		String url = jenkinsURL + "/job/"+ jobName + "/enable";
+		int code = HttpClient.postWithOutParameters(url);
+		return (302 == code) ? true : false;
 	};
 	
 	/**
-	 * POST
+	 * POST    禁用项目
 	 * jenkinsBaseURL + "/job/"+ jobName + "/disable"
 	 * @param jobName
 	 * @return
 	 */
 	public  boolean disableJob(String jobName){
-		return true;
+		String url = jenkinsURL + "/job/"+ jobName + "/disable";
+		int code = HttpClient.postWithOutParameters(url);
+		return (302 == code) ? true : false;
 	};
 	
 	/**
@@ -121,7 +125,7 @@ public class JenkinsClient {
 	 */
 	public  boolean buidlJob(String jobName){
 		String url = jenkinsURL+"/job/" + jobName + "/build";
-		int code = HttpClient.post(url, null);
+		int code = HttpClient.postBodyWithXML(url, null);
 		return (201 == code) ? true : false;
 	};
 	/**
