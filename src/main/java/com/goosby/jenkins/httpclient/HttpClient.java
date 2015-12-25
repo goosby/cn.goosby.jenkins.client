@@ -23,10 +23,11 @@ public class HttpClient {
 	 * @param parameters
 	 * @return
 	 */
-	public static int getWithParameters(String url,Map<String,String> parameters){
+	public static JenkinsResponse getWithParameters(String url,Map<String,String> parameters){
 		httpClient = HttpClientBuilder.create().build();
 		HttpGet method = null;
 		int code = 0;
+		String jenkinsResponse = null;
 		String requestParameter = buildParameters(parameters);
 		if(null != requestParameter && !requestParameter.equals("")){
 			if(url.endsWith("?")){
@@ -39,6 +40,7 @@ public class HttpClient {
 				response = httpClient.execute(method);
 				if(response != null){
 					code = response.getStatusLine().getStatusCode();
+					jenkinsResponse = response.getEntity().toString();
 				}
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
@@ -59,7 +61,7 @@ public class HttpClient {
 			}
 		}
 		
-		return code;
+		return new JenkinsResponse(code,jenkinsResponse);
 	}
 	
 	/**
@@ -75,22 +77,24 @@ public class HttpClient {
 		return code;
 	}
 	
-	public static int postWithOutParameters(String url){
+	public static JenkinsResponse postWithOutParameters(String url){
 		httpClient = HttpClientBuilder.create().build();
 		int code = 0;
+		String jenkinsResponse = null;
 		HttpPost method = new HttpPost(url);
 		CloseableHttpResponse response = null;
 		try {
 			response = httpClient.execute(method);
 			if(response != null){
 				code = response.getStatusLine().getStatusCode();
+				jenkinsResponse = response.getEntity().toString();
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return code;
+		return new JenkinsResponse(code,jenkinsResponse);
 	}
 	
 	/**
@@ -98,15 +102,17 @@ public class HttpClient {
 	 * @param url
 	 * @return
 	 */
-	public static int getWithOutParameter(String url){
+	public static JenkinsResponse getWithOutParameter(String url){
 		httpClient = HttpClientBuilder.create().build();
 		int code = 0;
+		String jenkinsResponse = null;
 		HttpGet method = new HttpGet(url);
 		CloseableHttpResponse  response = null;
 		try {
 			response = httpClient.execute(method);
 			if(response != null){
 				code = response.getStatusLine().getStatusCode();
+				jenkinsResponse = response.getEntity().toString();
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
@@ -125,7 +131,7 @@ public class HttpClient {
 				e.printStackTrace();
 			}
 		}
-		return code;
+		return new JenkinsResponse(code,jenkinsResponse);
 	}
 	
 	/**
@@ -134,9 +140,10 @@ public class HttpClient {
 	 * @param xmlBody
 	 * @return
 	 */
-	public static int postBodyWithXML(String url,String xmlBody){
+	public static JenkinsResponse postBodyWithXML(String url,String xmlBody){
 		httpClient = HttpClientBuilder.create().build();
 		int code = 0;
+		String jenkinsResponse = null;
 		HttpPost method = new HttpPost(url);
 		StringEntity entity = null;
 		CloseableHttpResponse response = null;
@@ -148,6 +155,7 @@ public class HttpClient {
 			response = httpClient.execute(method);
 			if(response != null){
 				code = response.getStatusLine().getStatusCode();
+				jenkinsResponse = response.getEntity().toString();
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -164,8 +172,7 @@ public class HttpClient {
 				e.printStackTrace();
 			}
 		}
-		System.out.println("---- -- :" + code);
-		return code;
+		return new JenkinsResponse(code,jenkinsResponse);
 	}
 	
 	public static String buildParameters(Map<String,String> parameters){

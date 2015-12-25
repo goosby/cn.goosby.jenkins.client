@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.http.HttpException;
 
 import com.goosby.jenkins.httpclient.HttpClient;
+import com.goosby.jenkins.httpclient.JenkinsResponse;
 import com.goosby.jenkins.model.JobStatus;
 
 public class JenkinsClient {
@@ -48,13 +49,13 @@ public class JenkinsClient {
 	 */
 	public  boolean createJob(String jobName,String xmlConfig){
 		String url = jenkinsURL+"/createItem?name=" + jobName;
-		int code = HttpClient.postBodyWithXML(url,xmlConfig);
-		return (200 == code) ? true : false;
+		JenkinsResponse response = HttpClient.postBodyWithXML(url,xmlConfig);
+		return (200 == response.getResponseCode()) ? true : false;
 	};
 	
 	
 	/**
-	 * POST 更新job
+	 * POST 	更新job
 	 * jenkinsBaseURL + "/job/"+ jobName + "/config.xml"
 	 * @param jobName
 	 * @param updateXml
@@ -62,8 +63,8 @@ public class JenkinsClient {
 	 */
 	public  boolean updateJob(String jobName,String updateXml){
 		String url = jenkinsURL + "/job/"+ jobName + "/config.xml";
-		int code = HttpClient.postBodyWithXML(url,updateXml);
-		return (200 == code )? true : false;
+		JenkinsResponse response = HttpClient.postBodyWithXML(url,updateXml);
+		return (200 == response.getResponseCode() )? true : false;
 	};
 	
 	/**
@@ -89,8 +90,8 @@ public class JenkinsClient {
 	 */
 	public  boolean deleteJob(String jobName){
 		String url = jenkinsURL + "/job/" + jobName + "/doDelete";
-		int code = HttpClient.postWithOutParameters(url);
-		return (302 == code) ? true : false;
+		JenkinsResponse response = HttpClient.postWithOutParameters(url);
+		return (302 == response.getResponseCode()) ? true : false;
 	};
 	
 	/**
@@ -101,8 +102,8 @@ public class JenkinsClient {
 	 */
 	public  boolean enableJob(String jobName){
 		String url = jenkinsURL + "/job/"+ jobName + "/enable";
-		int code = HttpClient.postWithOutParameters(url);
-		return (302 == code) ? true : false;
+		JenkinsResponse response = HttpClient.postWithOutParameters(url);
+		return (302 == response.getResponseCode()) ? true : false;
 	};
 	
 	/**
@@ -113,8 +114,8 @@ public class JenkinsClient {
 	 */
 	public  boolean disableJob(String jobName){
 		String url = jenkinsURL + "/job/"+ jobName + "/disable";
-		int code = HttpClient.postWithOutParameters(url);
-		return (302 == code) ? true : false;
+		JenkinsResponse response = HttpClient.postWithOutParameters(url);
+		return (302 == response.getResponseCode()) ? true : false;
 	};
 	
 	/**
@@ -125,8 +126,8 @@ public class JenkinsClient {
 	 */
 	public  boolean buidlJob(String jobName){
 		String url = jenkinsURL+"/job/" + jobName + "/build";
-		int code = HttpClient.postBodyWithXML(url, null);
-		return (201 == code) ? true : false;
+		JenkinsResponse response = HttpClient.postBodyWithXML(url, null);
+		return (201 == response.getResponseCode()) ? true : false;
 	};
 	/**
 	 * GET
@@ -137,8 +138,8 @@ public class JenkinsClient {
 	 */
 	public  boolean buildJobWithParameters(String jobName,Map<String,String> parameters){
 		String url = jenkinsURL + "/job/"+ jobName+ "/buildWithParameters";
-		int code = HttpClient.getWithParameters(url, parameters);
-		return (200 == code) ? true : false;
+		JenkinsResponse response = HttpClient.getWithParameters(url, parameters);
+		return (200 == response.getResponseCode()) ? true : false;
 	};
 	
 	/**
@@ -161,7 +162,8 @@ public class JenkinsClient {
 	};
 	
 	/**
-	 * jenkinsBaseURL + "/job/"+ jobName+ "/lastSuccessfulBuild/buildTimestamp?format=dd/MM/yyyy"
+	 * 
+	 * 		jenkinsBaseURL + "/job/"+ jobName+ "/lastSuccessfulBuild/buildTimestamp?format=dd/MM/yyyy"
 	 * @param jobName
 	 * @return
 	 */
@@ -171,7 +173,7 @@ public class JenkinsClient {
 	
 	/**
 	 * GET
-	 * jenkinsBaseURL + "/api/xml"
+	 * 		jenkinsBaseURL + "/api/xml"
 	 * @return
 	 * @throws IOException
 	 * @throws HttpException
@@ -199,17 +201,19 @@ public class JenkinsClient {
 //	}
 	
 	/**
-	 * 
+	 * GET 	获取jobDetails
+	 * 		jenkinsBaseURL + "job/"+ jobName + "/api/json"
 	 * @param jobName
 	 * @return
 	 */
 	public  String getJobDetailJSON(String jobName){
+		
 		return null;
 	};
 	
 	/**
 	 * GET  获取jenkins集群信息（主，从信息）
-	 * computer/api/json
+	 * 		jenkinsBaseURL + "computer/api/json"
 	 * @return
 	 */
 	public  String getJenkinsColony(){
