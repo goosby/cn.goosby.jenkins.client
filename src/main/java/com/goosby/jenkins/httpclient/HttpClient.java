@@ -3,6 +3,7 @@ package com.goosby.jenkins.httpclient;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -28,7 +29,6 @@ public class HttpClient {
 		int code = 0;
 		String requestParameter = buildParameters(parameters);
 		if(null != requestParameter && !requestParameter.equals("")){
-			requestParameter = requestParameter.substring(0,requestParameter.length()-1);
 			if(url.endsWith("?")){
 				method = new HttpGet(url + requestParameter);
 			}else{
@@ -171,13 +171,18 @@ public class HttpClient {
 	public static String buildParameters(Map<String,String> parameters){
 		StringBuilder builder = new StringBuilder();
 		if(parameters != null && parameters.size() > 0){
-			for(Iterator iterator = parameters.entrySet().iterator(); iterator.hasNext();){
-				Map.Entry entry = (Map.Entry) iterator.next(); 
-				String key = (String) entry.getKey();
-				String value = (String) entry.getValue();
+			for(Iterator<Entry<String, String>>  iterator = parameters.entrySet().iterator(); iterator.hasNext();){
+				Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next(); 
+				String key =  entry.getKey();
+				String value = entry.getValue();
 				builder.append(key + "=" + value + "&");
 			}
 		}
-		return builder.toString();
+		String result = builder.toString();
+		if(null != result && !"".equals(result)){
+			result = result.substring(0, result.length()-1);
+			return result;
+		}
+		return null;
 	}
 }
