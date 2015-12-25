@@ -37,7 +37,7 @@ public class JenkinsClient {
 	public static void main(String[] args){
 		String url = "http://192.168.138.62:8081/jenkins";
 		JenkinsClient client = new JenkinsClient(url);
-		String result = client.getJenkinsColony();
+		String result = client.getJobDetailJSON("compile_qa_ta_ob_db");
 		System.out.println(result);
 	}
 	

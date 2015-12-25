@@ -61,7 +61,6 @@ public class HttpClient {
 				}
 			}
 		}
-		
 		return new JenkinsResponse(code,jenkinsResponse);
 	}
 	
