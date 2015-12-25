@@ -1,6 +1,7 @@
 package com.goosby.jenkins.httpclient;
 
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.http.client.ClientProtocolException;
@@ -16,16 +17,57 @@ public class HttpClient {
 	
 	public static CloseableHttpClient httpClient;
 	
-	
+	/**
+	 * @param url
+	 * @param parameters
+	 * @return
+	 */
 	public static int getWithParameters(String url,Map<String,String> parameters){
 		httpClient = HttpClientBuilder.create().build();
+		HttpGet method = null;
 		int code = 0;
-		
-		
+		String requestParameter = buildParameters(parameters);
+		if(null != requestParameter && !requestParameter.equals("")){
+			requestParameter = requestParameter.substring(0,requestParameter.length()-1);
+			if(url.endsWith("?")){
+				method = new HttpGet(url + requestParameter);
+			}else{
+				method = new HttpGet(url + "?" + requestParameter);
+			}
+			CloseableHttpResponse response = null;
+			try {
+				response = httpClient.execute(method);
+				if(response != null){
+					code = response.getStatusLine().getStatusCode();
+				}
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}finally{
+				method.abort();
+				try {
+					response.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				try {
+					httpClient.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		
 		return code;
 	}
 	
+	/**
+	 * 
+	 * @param url
+	 * @param parameters
+	 * @return
+	 */
 	public static int postWithParameters(String url,Map<String,String> parameters){
 		httpClient = HttpClientBuilder.create().build();
 		int code = 0;
@@ -126,5 +168,16 @@ public class HttpClient {
 		return code;
 	}
 	
-	
+	public static String buildParameters(Map<String,String> parameters){
+		StringBuilder builder = new StringBuilder();
+		if(parameters != null && parameters.size() > 0){
+			for(Iterator iterator = parameters.entrySet().iterator(); iterator.hasNext();){
+				Map.Entry entry = (Map.Entry) iterator.next(); 
+				String key = (String) entry.getKey();
+				String value = (String) entry.getValue();
+				builder.append(key + "=" + value + "&");
+			}
+		}
+		return builder.toString();
+	}
 }

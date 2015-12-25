@@ -1,6 +1,7 @@
 package com.goosby.jenkins.client;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +37,7 @@ public class JenkinsClient {
 	public static void main(String[] args){
 		String url = "http://192.168.138.62:8081/jenkins";
 		JenkinsClient client = new JenkinsClient(url);
-		client.enableJob("qa_ta_springdemo");
+		client.buildJobWithParameters("qa_ta_is_oss",null);
 	}
 	
 	/**
@@ -135,7 +136,28 @@ public class JenkinsClient {
 	 * @param parameters
 	 * @return
 	 */
-	public  String buildJobWithParameters(String jobName,Map<String,String> parameters){
+	public  boolean buildJobWithParameters(String jobName,Map<String,String> parameters){
+		String url = jenkinsURL + "/job/"+ jobName+ "/buildWithParameters";
+		int code = HttpClient.getWithParameters(url, parameters);
+		return (200 == code) ? true : false;
+	};
+	
+	/**
+	 * 
+	 * @param jobName
+	 * @return
+	 */
+	public  String abortBuildJob(String jobName){
+		return null;
+	};
+	
+	/**
+	 * 
+	 * @param jobName
+	 * @param buildNumber
+	 * @return
+	 */
+	public  String abortBuilJob(String jobName,long buildNumber){
 		return null;
 	};
 	
@@ -176,25 +198,6 @@ public class JenkinsClient {
 //		}
 //		return jobStatus;
 //	}
-	
-	/**
-	 * 
-	 * @param jobName
-	 * @return
-	 */
-	public  String abortBuildJob(String jobName){
-		return null;
-	};
-	
-	/**
-	 * 
-	 * @param jobName
-	 * @param buildNumber
-	 * @return
-	 */
-	public  String abortBuilJob(String jobName,long buildNumber){
-		return null;
-	};
 	
 	/**
 	 * 
