@@ -1,8 +1,10 @@
 package com.goosby.jenkins.client;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.goosby.jenkins.client.utils.XmlUtil;
 import com.goosby.jenkins.httpclient.HttpClient;
 import com.goosby.jenkins.httpclient.JenkinsResponse;
 
@@ -33,7 +35,7 @@ public class JenkinsClient {
 	public static void main(String[] args){
 		String url = "http://localhost:8080";
 		JenkinsClient client = new JenkinsClient(url);
-		boolean result = client.copyJob("test-git", "copyName");
+		String result = client.getApiXml();
 		System.out.println(result);
 	}
 	
@@ -56,9 +58,24 @@ public class JenkinsClient {
 	 * @return
 	 */
 	public boolean createView(String viewName){
-		
+		String url = jenkinsURL + "/createView";
+		Map<String,String> params = new HashMap<String,String>();
+		params.put("name", viewName);
+		JenkinsResponse response = HttpClient.postWithParameters(url, params);
+		return (200 == response.getResponseCode()) ? true : false;
+	}
+	
+	/**
+	 * 创建用户
+	 * 		POST /securityRealm/createAccount
+	 * @param userName
+	 * @param password
+	 * @return
+	 */
+	public boolean createUser(String userName,String password){
 		return true;
 	}
+	
 	/**
 	 * POST 	更新job
 	 * jenkinsBaseURL + "/job/"+ jobName + "/config.xml"
@@ -74,22 +91,22 @@ public class JenkinsClient {
 	
 	/**
 	 * POST
-	 * 			jenkinsBaseURL + "/createItem"
+	 * 		复制job	jenkinsBaseURL + "/createItem"
 	 * NameValuePair n1 = new NameValuePair("name", newJobName);
 		NameValuePair n2 = new NameValuePair("mode", "copy");
 		NameValuePair n3 = new NameValuePair("from", originJobName);
 	 * @param originJobName
-	 * @param newJobName
+	 * @param newJobName	
 	 * @return
 	 */
 	public  boolean copyJob(String originJobName, String newJobName){
-		String url = jenkinsURL + "createItem";
+		String url = jenkinsURL + "/createItem";
 		Map<String,String> params = new HashMap<String,String>();
-		params.put("name", originJobName);
+		params.put("name", newJobName);
 		params.put("mode", "copy");
-		params.put("from", newJobName);
+		params.put("from", originJobName);
 		JenkinsResponse response = HttpClient.postWithParameters(url, params);
-		return (200 == response.getResponseCode()) ? true : false;
+		return (302 == response.getResponseCode()) ? true : false;
 	};
 	
 	/**
@@ -117,6 +134,32 @@ public class JenkinsClient {
 		JenkinsResponse response = HttpClient.postWithOutParameters(url);
 		return (302 == response.getResponseCode()) ? true : false;
 	};
+	
+	/**
+	 * 删除view
+	 * 		POST jenkinsURL +"/view/"+ viewName + "/doDelete"
+	 * @param viewName
+	 * @return
+	 */
+	public boolean deleteView(String viewName){
+		String url = jenkinsURL +"/view/"+ viewName + "/doDelete";
+		JenkinsResponse response = HttpClient.postWithOutParameters(url);
+		return (302 == response.getResponseCode()) ? true : false;
+	}
+	
+	/**
+	 * 删除user
+	 * POST		"/user/" + userName + "/doDelete
+	 * @param userName
+	 * @return
+	 */
+	public boolean deleteUser(String userName){
+		String url = jenkinsURL + "/user/" + userName + "/doDelete";
+		Map<String,String> parameters = new HashMap<String,String>();
+		parameters.put("name", userName);
+		JenkinsResponse response = HttpClient.postWithParameters(url, parameters);
+		return (200 == response.getResponseCode()) ? true : false;
+	}
 	
 	/**
 	 * POST		启用项目
@@ -150,7 +193,7 @@ public class JenkinsClient {
 	 */
 	public  boolean buidlJob(String jobName){
 		String url = jenkinsURL+"/job/" + jobName + "/build";
-		JenkinsResponse response = HttpClient.postBodyWithXML(url, null);
+		JenkinsResponse response = HttpClient.postWithOutParameters(url);
 		return (201 == response.getResponseCode()) ? true : false;
 	};
 	/**
@@ -201,6 +244,40 @@ public class JenkinsClient {
 		return (302 == response.getResponseCode()) ? true : false;
 	};
 	
+	/**
+	 * 可以已json的格式获取，／api/json
+	 * POST
+	 * @return
+	 */
+	public String getApiXml(){
+		String url = jenkinsURL + "/api/xml";
+		JenkinsResponse response = HttpClient.postWithOutParameters(url);
+		return response.getResponseBody();
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<String> getAllJobs(){
+		return XmlUtil.parseJobs(this.getApiXml());
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<String> getAllViews(){
+		return XmlUtil.parseViews(getApiXml());
+	}
+	
+	/**
+	 * 
+	 * @return
+	 */
+	public List<String> getAllUsers(){
+		return XmlUtil.parseUsers(getApiXml());
+	}
 	
 	/**
 	 * GET 	获取jobDetails
