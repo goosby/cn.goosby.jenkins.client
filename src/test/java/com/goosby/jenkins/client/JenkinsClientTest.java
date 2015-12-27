@@ -30,6 +30,7 @@ public class JenkinsClientTest {
 	@Test
 	public void testGetJobDetailJSON(){
 		String result = client.getJobDetailJSON("test-git");
+		System.out.println(result);
 		JenkinsJob jenkinsJob = JSON.parseObject(result,JenkinsJob.class);
 		assertNotNull(jenkinsJob);
 	}
