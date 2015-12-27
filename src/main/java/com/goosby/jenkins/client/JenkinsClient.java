@@ -14,7 +14,6 @@ public class JenkinsClient {
 	 * url格式：	http://localhost:8080/jenkins
 	 * @param url
 	 */
-	
 	public JenkinsClient(String url){
 		if(url.endsWith("/")){
 			jenkinsURL = url.substring(0, url.length()-1);
@@ -32,15 +31,15 @@ public class JenkinsClient {
 	}
 	
 	public static void main(String[] args){
-		String url = "http://192.168.138.62:8081/jenkins";
+		String url = "http://localhost:8080";
 		JenkinsClient client = new JenkinsClient(url);
-		boolean result = client.abortBuildJob("OB_FGW", 999);
+		boolean result = client.copyJob("test-git", "copyName");
 		System.out.println(result);
 	}
 	
 	/**
 	 * 创建JOB
-	 * jenkinsBaseURL+ "/createItem?name=" + jobName
+	 * 		post 	jenkinsBaseURL+ "/createItem?name=" + jobName
 	 * @param jobName
 	 * @param xmlConfig
 	 * @return
@@ -51,7 +50,15 @@ public class JenkinsClient {
 		return (200 == response.getResponseCode()) ? true : false;
 	};
 	
-	
+	/**
+	 * 创建view
+	 * @param viewName
+	 * @return
+	 */
+	public boolean createView(String viewName){
+		
+		return true;
+	}
 	/**
 	 * POST 	更新job
 	 * jenkinsBaseURL + "/job/"+ jobName + "/config.xml"
@@ -62,13 +69,12 @@ public class JenkinsClient {
 	public  boolean updateJob(String jobName,String updateXml){
 		String url = jenkinsURL + "/job/"+ jobName + "/config.xml";
 		JenkinsResponse response = HttpClient.postBodyWithXML(url,updateXml);
-		return (200 == response.getResponseCode() )? true : false;
+		return (200 == response.getResponseCode() ) ? true : false;
 	};
 	
 	/**
 	 * POST
-	 * 			复制JOB
-	 * jenkinsBaseURL + "/createItem"
+	 * 			jenkinsBaseURL + "/createItem"
 	 * NameValuePair n1 = new NameValuePair("name", newJobName);
 		NameValuePair n2 = new NameValuePair("mode", "copy");
 		NameValuePair n3 = new NameValuePair("from", originJobName);
@@ -77,7 +83,13 @@ public class JenkinsClient {
 	 * @return
 	 */
 	public  boolean copyJob(String originJobName, String newJobName){
-		return true;
+		String url = jenkinsURL + "createItem";
+		Map<String,String> params = new HashMap<String,String>();
+		params.put("name", originJobName);
+		params.put("mode", "copy");
+		params.put("from", newJobName);
+		JenkinsResponse response = HttpClient.postWithParameters(url, params);
+		return (200 == response.getResponseCode()) ? true : false;
 	};
 	
 	/**
@@ -167,7 +179,7 @@ public class JenkinsClient {
 	}
 	
 	/**
-	 *  检查是否正在构建
+	 *  检查job是否正在构建
 	 * @param jobName
 	 * @param buildNumber
 	 * @return
@@ -179,7 +191,7 @@ public class JenkinsClient {
 	
 	
 	/**
-	 * 
+	 * 停止正在构建的job
 	 * @param jobName
 	 * @return
 	 */
