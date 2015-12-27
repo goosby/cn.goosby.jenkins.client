@@ -33,10 +33,6 @@ public class JenkinsClient {
 	}
 	
 	public static void main(String[] args){
-		String url = "http://localhost:8080";
-		JenkinsClient client = new JenkinsClient(url);
-		String result = client.getApiXml();
-		System.out.println(result);
 	}
 	
 	/**
@@ -251,6 +247,12 @@ public class JenkinsClient {
 	 */
 	public String getApiXml(){
 		String url = jenkinsURL + "/api/xml";
+		JenkinsResponse response = HttpClient.postWithOutParameters(url);
+		return response.getResponseBody();
+	}
+	
+	public String getApiJson(){
+		String url = jenkinsURL + "/api/json";
 		JenkinsResponse response = HttpClient.postWithOutParameters(url);
 		return response.getResponseBody();
 	}
