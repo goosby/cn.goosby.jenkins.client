@@ -7,7 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
-import com.goosby.jenkins.model.jobdetail.JenkinsJob;
+import com.goosby.jenkins.model.jobdetail.JobDetail;
 
 public class JenkinsClientTest {
 	public static JenkinsClient client;
@@ -30,7 +30,7 @@ public class JenkinsClientTest {
 	@Test
 	public void testGetJobDetailJSON(){
 		String result = client.getJobDetailJSON("test-git");
-		JenkinsJob jenkinsJob = JSON.parseObject(result,JenkinsJob.class);
+		JobDetail jenkinsJob = JSON.parseObject(result,JobDetail.class);
 		assertNotNull(jenkinsJob);
 	}
 	

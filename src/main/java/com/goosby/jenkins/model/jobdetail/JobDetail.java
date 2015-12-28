@@ -2,7 +2,7 @@ package com.goosby.jenkins.model.jobdetail;
 
 import java.util.List;
 
-public class JenkinsJob {
+public class JobDetail {
 
 	private List<Actions> actions;
 
