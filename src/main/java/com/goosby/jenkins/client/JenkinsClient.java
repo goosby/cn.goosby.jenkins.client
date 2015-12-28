@@ -5,10 +5,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSON;
-import com.goosby.jenkins.client.utils.XmlUtil;
 import com.goosby.jenkins.httpclient.HttpClient;
 import com.goosby.jenkins.httpclient.JenkinsResponse;
-import com.goosby.jenkins.model.builddetail.BuildDetail;
 
 public class JenkinsClient {
 	
@@ -248,8 +246,7 @@ public class JenkinsClient {
 	 */
 	public boolean isBuilding(String jobName,long buildNumber){
 		String result = this.getBuildDetails(jobName, buildNumber);
-		BuildDetail buildDetail = JSON.parseObject(result, BuildDetail.class);
-		return buildDetail.getBuilding();
+		return (boolean) JSON.parseObject(result).get("building");
 	}
 	
 	
@@ -266,17 +263,6 @@ public class JenkinsClient {
 	
 	/**
 	 * 获取jenkins的信息
-	 * POST		"／api/json"
-	 * @return
-	 */
-	public String getJenkinsApiXml(){
-		String url = jenkinsURL + "/api/xml";
-		JenkinsResponse response = HttpClient.postWithOutParameters(url);
-		return response.getResponseBody();
-	}
-	
-	/**
-	 * 获取jenkins的信息
 	 * 	GET 	jenkinsURL + "/api/json"
 	 * @return
 	 */
@@ -287,11 +273,13 @@ public class JenkinsClient {
 	}
 	
 	/**
-	 * 
+	 * 获取所有的JOB
 	 * @return
 	 */
 	public List<String> getAllJobs(){
-		return XmlUtil.parseJobs(this.getJenkinsApiXml());
+		String result = this.getJenkinsApiJson();
+		Object object = JSON.parseObject(result).get("jobs");
+		return JSON.parseArray(object.toString(), String.class);
 	}
 	
 	/**
@@ -299,7 +287,9 @@ public class JenkinsClient {
 	 * @return
 	 */
 	public List<String> getAllViews(){
-		return XmlUtil.parseViews(getJenkinsApiXml());
+		String result = this.getJenkinsApiJson();
+		Object object = JSON.parseObject(result).get("views");
+		return JSON.parseArray(object.toString(), String.class);
 	}
 	
 	/**
@@ -307,7 +297,9 @@ public class JenkinsClient {
 	 * @return
 	 */
 	public List<String> getAllUsers(){
-		return XmlUtil.parseUsers(getJenkinsApiXml());
+		String result = this.getJenkinsApiJson();
+		Object object = JSON.parseObject(result).get("users");
+		return JSON.parseArray(object.toString(), String.class);
 	}
 	
 	/**
@@ -316,7 +308,7 @@ public class JenkinsClient {
 	 * @param jobName
 	 * @return
 	 */
-	public  String getJobDetailJSON(String jobName){
+	public  String getJobJSON(String jobName){
 		String url = jenkinsURL + "/job/" + jobName + "/api/json";
 		JenkinsResponse response = HttpClient.getWithOutParameter(url);
 		return response.getResponseBody();
@@ -332,5 +324,9 @@ public class JenkinsClient {
 		JenkinsResponse response = HttpClient.getWithOutParameter(url);
 		return response.getResponseBody();
 	};
+	
+	
+	
+	
 	
 }

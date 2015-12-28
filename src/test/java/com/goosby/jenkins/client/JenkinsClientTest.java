@@ -3,11 +3,10 @@ package com.goosby.jenkins.client;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.List;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.alibaba.fastjson.JSON;
-import com.goosby.jenkins.model.buildjobdetail.JobDetail;
 
 public class JenkinsClientTest {
 	public static JenkinsClient client;
@@ -28,9 +27,8 @@ public class JenkinsClientTest {
 	
 	@Test
 	public void testGetJobDetailJSON(){
-		String result = client.getJobDetailJSON("test-git");
-		JobDetail jenkinsJob = JSON.parseObject(result,JobDetail.class);
-		assertNotNull(jenkinsJob);
+		String result = client.getJobJSON("test-git");
+		assertNotNull(result);
 	}
 	
 	@Test
@@ -48,7 +46,7 @@ public class JenkinsClientTest {
 	
 	@Test
 	public void testIsBuilding(){
-		boolean result = client.isBuilding("INFS_CAP_PE_INTERFACE", 2247l);
+		boolean result = client.isBuilding("MA_CPS_NJ_MRS", 1777l);
 		assertTrue(result);
 	}
 	
@@ -59,5 +57,9 @@ public class JenkinsClientTest {
 	}
 	
 	
-	
+	@Test
+	public void testGetAllJobs(){
+		List<String> list = client.getAllJobs();
+		assertTrue(list.size() > 0);
+	}
 }
