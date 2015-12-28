@@ -216,7 +216,7 @@ public class HttpClient {
 		return new JenkinsResponse(code,jenkinsResponse);
 	}
 	
-	public static String buildParameters(Map<String,String> parameters){
+	private static String buildParameters(Map<String,String> parameters){
 		StringBuilder builder = new StringBuilder();
 		if(parameters != null && parameters.size() > 0){
 			for(Iterator<Entry<String, String>>  iterator = parameters.entrySet().iterator(); iterator.hasNext();){
