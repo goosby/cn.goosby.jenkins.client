@@ -319,14 +319,10 @@ public class JenkinsClient {
 	 * 		jenkinsBaseURL + "computer/api/json"
 	 * @return
 	 */
-	public  String getJenkinsColony(){
+	public  String getComputers(){
 		String url = jenkinsURL + "/computer/api/json";
 		JenkinsResponse response = HttpClient.getWithOutParameter(url);
 		return response.getResponseBody();
 	};
-	
-	
-	
-	
 	
 }
