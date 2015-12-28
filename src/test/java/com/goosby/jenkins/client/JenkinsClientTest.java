@@ -7,7 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
-import com.goosby.jenkins.model.jobdetail.JobDetail;
+import com.goosby.jenkins.model.buildjobdetail.JobDetail;
 
 public class JenkinsClientTest {
 	public static JenkinsClient client;

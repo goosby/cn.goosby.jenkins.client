@@ -1,4 +1,4 @@
-package com.goosby.jenkins.model.jobdetail;
+package com.goosby.jenkins.model.buildjobdetail;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,8 +1,9 @@
-package com.goosby.jenkins.model.jobdetail;
+package com.goosby.jenkins.model.buildjobdetail;
 
 import java.util.List;
 
-public class JobDetailActions {
+public class Property {
+	
 	
 	private List<ParameterDefinitions> parameterDefinitions ;
 
@@ -12,4 +13,7 @@ public class JobDetailActions {
 	public List<ParameterDefinitions> getParameterDefinitions(){
 		return this.parameterDefinitions;
 	}
+	
+	
+	
 }

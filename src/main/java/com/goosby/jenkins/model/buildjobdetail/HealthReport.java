@@ -1,4 +1,4 @@
-package com.goosby.jenkins.model.jobdetail;
+package com.goosby.jenkins.model.buildjobdetail;
 
 public class HealthReport {
 	private String description;
