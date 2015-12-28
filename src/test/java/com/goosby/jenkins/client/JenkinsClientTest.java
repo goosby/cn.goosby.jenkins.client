@@ -49,7 +49,15 @@ public class JenkinsClientTest {
 	@Test
 	public void testIsBuilding(){
 		boolean result = client.isBuilding("INFS_CAP_PE_INTERFACE", 2247l);
-		System.out.println(result);
+		assertTrue(result);
 	}
+	
+	@Test
+	public void testCancelQueueJob(){
+		boolean response = client.cancelQueueJobByid(1505);
+		assertTrue(response);
+	}
+	
+	
 	
 }

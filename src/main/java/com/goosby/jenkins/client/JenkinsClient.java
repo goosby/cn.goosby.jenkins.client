@@ -129,7 +129,7 @@ public class JenkinsClient {
 	};
 	
 	/**
-	 * 删除view
+	 * 	删除view
 	 * 		POST jenkinsURL +"/view/"+ viewName + "/doDelete"
 	 * @param viewName
 	 * @return
@@ -218,10 +218,26 @@ public class JenkinsClient {
 	 * 		GET 	jenkinsURL + "/queue/api/json"
 	 * @return
 	 */
-	public String getQueueJob(){
+	public String getQueueJobItems(){
 		String url = jenkinsURL + "/queue/api/json";
 		JenkinsResponse response = HttpClient.getWithOutParameter(url);
 		return response.getResponseBody();
+	}
+	
+	
+	/**
+	 * GET
+	 * 	取消任务队列（排队）中的job
+	 * /queue/cancelItem?id=" + itemId
+	 * @param itemId
+	 * @return
+	 */
+	public boolean cancelQueueJobByid(long id){
+		String url = jenkinsURL + "/queue/cancelItem";
+		Map<String,String> parameters = new HashMap<String,String>();
+		parameters.put("id", String.valueOf(id));
+		JenkinsResponse response = HttpClient.getWithParameters(url, parameters);
+		return (200 == response.getResponseCode()) ? true : false;
 	}
 	
 	/**
@@ -249,7 +265,7 @@ public class JenkinsClient {
 	};
 	
 	/**
-	 * 可以已json的格式获取
+	 * 获取jenkins的信息
 	 * POST		"／api/json"
 	 * @return
 	 */
@@ -259,6 +275,11 @@ public class JenkinsClient {
 		return response.getResponseBody();
 	}
 	
+	/**
+	 * 获取jenkins的信息
+	 * 	GET 	jenkinsURL + "/api/json"
+	 * @return
+	 */
 	public String getJenkinsApiJson(){
 		String url = jenkinsURL + "/api/json";
 		JenkinsResponse response = HttpClient.postWithOutParameters(url);
