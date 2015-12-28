@@ -5,7 +5,7 @@ import java.util.List;
 public class BuildDetail {
 	
 	
-	private List<BuildActions> actions;
+	private List<BuildDetailActions> actions;
 
 	private List<Artifacts> artifacts;
 
@@ -35,11 +35,11 @@ public class BuildDetail {
 
 	private List<Culprits> culprits;
 
-	public void setActions(List<BuildActions> actions) {
+	public void setActions(List<BuildDetailActions> actions) {
 		this.actions = actions;
 	}
 
-	public List<BuildActions> getActions() {
+	public List<BuildDetailActions> getActions() {
 		return this.actions;
 	}
 

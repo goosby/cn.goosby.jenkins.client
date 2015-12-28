@@ -2,7 +2,7 @@ package com.goosby.jenkins.model.builddetail;
 
 import java.util.List;
 
-public class BuildActions {
+public class BuildDetailActions {
 	
 	private List<Parameters> parameters ;
 
@@ -12,7 +12,6 @@ public class BuildActions {
 	public List<Parameters> getParameters(){
 		return this.parameters;
 	}
-	
 	
 	
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 public class JobDetail {
 
-	private List<Actions> actions;
+	private List<JobDetailActions> actions;
 
 	private String description;
 
@@ -48,11 +48,11 @@ public class JobDetail {
 
 	private List<UpstreamProjects> upstreamProjects;
 
-	public void setActions(List<Actions> actions) {
+	public void setActions(List<JobDetailActions> actions) {
 		this.actions = actions;
 	}
 
-	public List<Actions> getActions() {
+	public List<JobDetailActions> getActions() {
 		return this.actions;
 	}
 

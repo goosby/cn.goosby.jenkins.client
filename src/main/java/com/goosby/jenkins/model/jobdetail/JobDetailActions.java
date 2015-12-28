@@ -2,7 +2,7 @@ package com.goosby.jenkins.model.jobdetail;
 
 import java.util.List;
 
-public class Actions {
+public class JobDetailActions {
 	
 	private List<ParameterDefinitions> parameterDefinitions ;
 
