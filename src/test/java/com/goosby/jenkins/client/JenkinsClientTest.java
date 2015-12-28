@@ -14,7 +14,6 @@ public class JenkinsClientTest {
 	public static String URL = "http://192.168.138.62:8081/jenkins";
 	
 	
-	
 	@BeforeClass
 	public static void setUp(){
 		client = new JenkinsClient(URL);
@@ -36,7 +35,7 @@ public class JenkinsClientTest {
 	
 	@Test
 	public void testGetApiJson(){
-		String result = client.getApiJson();
+		String result = client.getJenkinsApiJson();
 		System.out.println(result);
 		
 	}

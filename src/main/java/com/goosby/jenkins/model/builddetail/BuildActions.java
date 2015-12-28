@@ -12,4 +12,7 @@ public class BuildActions {
 	public List<Parameters> getParameters(){
 		return this.parameters;
 	}
+	
+	
+	
 }

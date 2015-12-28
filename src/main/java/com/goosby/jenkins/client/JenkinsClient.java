@@ -242,13 +242,13 @@ public class JenkinsClient {
 	 * POST		"／api/json"
 	 * @return
 	 */
-	public String getApiXml(){
+	public String getJenkinsApiXml(){
 		String url = jenkinsURL + "/api/xml";
 		JenkinsResponse response = HttpClient.postWithOutParameters(url);
 		return response.getResponseBody();
 	}
 	
-	public String getApiJson(){
+	public String getJenkinsApiJson(){
 		String url = jenkinsURL + "/api/json";
 		JenkinsResponse response = HttpClient.postWithOutParameters(url);
 		return response.getResponseBody();
@@ -259,7 +259,7 @@ public class JenkinsClient {
 	 * @return
 	 */
 	public List<String> getAllJobs(){
-		return XmlUtil.parseJobs(this.getApiXml());
+		return XmlUtil.parseJobs(this.getJenkinsApiXml());
 	}
 	
 	/**
@@ -267,7 +267,7 @@ public class JenkinsClient {
 	 * @return
 	 */
 	public List<String> getAllViews(){
-		return XmlUtil.parseViews(getApiXml());
+		return XmlUtil.parseViews(getJenkinsApiXml());
 	}
 	
 	/**
@@ -275,7 +275,7 @@ public class JenkinsClient {
 	 * @return
 	 */
 	public List<String> getAllUsers(){
-		return XmlUtil.parseUsers(getApiXml());
+		return XmlUtil.parseUsers(getJenkinsApiXml());
 	}
 	
 	/**
