@@ -1,6 +1,8 @@
 package com.goosby.jenkins.model.jobdetail;
 
 public class ParameterDefinitions {
+	
+	
 	private DefaultParameterValue defaultParameterValue;
 
 	private String description;
@@ -9,28 +11,35 @@ public class ParameterDefinitions {
 
 	private String type;
 
-	public void setDefaultParameterValue(DefaultParameterValue defaultParameterValue){
+	public void setDefaultParameterValue(DefaultParameterValue defaultParameterValue) {
 		this.defaultParameterValue = defaultParameterValue;
 	}
-	public DefaultParameterValue getDefaultParameterValue(){
+
+	public DefaultParameterValue getDefaultParameterValue() {
 		return this.defaultParameterValue;
 	}
-	public void setDescription(String description){
+
+	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getDescription(){
+
+	public String getDescription() {
 		return this.description;
 	}
-	public void setName(String name){
+
+	public void setName(String name) {
 		this.name = name;
 	}
-	public String getName(){
+
+	public String getName() {
 		return this.name;
 	}
-	public void setType(String type){
+
+	public void setType(String type) {
 		this.type = type;
 	}
-	public String getType(){
+
+	public String getType() {
 		return this.type;
 	}
 }

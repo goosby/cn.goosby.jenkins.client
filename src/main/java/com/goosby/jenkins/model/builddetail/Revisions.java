@@ -6,17 +6,20 @@ public class Revisions {
 
 	private int revision;
 
-	public void setModule(String module){
-	this.module = module;
+	public void setModule(String module) {
+		this.module = module;
 	}
-	public String getModule(){
-	return this.module;
+
+	public String getModule() {
+		return this.module;
 	}
-	public void setRevision(int revision){
-	this.revision = revision;
+
+	public void setRevision(int revision) {
+		this.revision = revision;
 	}
-	public int getRevision(){
-	return this.revision;
+
+	public int getRevision() {
+		return this.revision;
 	}
 
 }

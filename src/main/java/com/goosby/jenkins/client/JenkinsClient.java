@@ -72,7 +72,7 @@ public class JenkinsClient {
 	}
 	
 	/**
-	 * POST 	更新job
+	 * POST 	更新（修改）job
 	 * jenkinsBaseURL + "/job/"+ jobName + "/config.xml"
 	 * @param jobName
 	 * @param updateXml
@@ -102,7 +102,7 @@ public class JenkinsClient {
 	};
 	
 	/**
-	 * 
+	 * 重命名JOB
 	 * @param originJobName
 	 * @param newJobName
 	 * @return
@@ -116,6 +116,7 @@ public class JenkinsClient {
 	}
 	
 	/**
+	 * 		删除JOB
 	 * POST
 	 * jenkinsBaseURL + "/job/"+ jobName + "/doDelete"
 	 * @param jobName
@@ -209,6 +210,16 @@ public class JenkinsClient {
 	 */
 	public String getBuildDetails(String jobName, long buildNumber){
 		String url = jenkinsURL + "/job/" + jobName + "/" + buildNumber + "/api/json";
+		JenkinsResponse response = HttpClient.getWithOutParameter(url);
+		return response.getResponseBody();
+	}
+	/**
+	 * 获取正在队列中等待构建的JOB
+	 * 		GET 	jenkinsURL + "/queue/api/json"
+	 * @return
+	 */
+	public String getQueueJob(){
+		String url = jenkinsURL + "/queue/api/json";
 		JenkinsResponse response = HttpClient.getWithOutParameter(url);
 		return response.getResponseBody();
 	}
