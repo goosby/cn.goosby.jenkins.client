@@ -1,6 +1,6 @@
-package com.goosby.jenkins.model.job;
+package com.goosby.jenkins.model.jobdetail;
 
-public class Builds {
+public class LastSuccessfulBuild {
 	private int number;
 
 	private String url;

@@ -1,8 +1,9 @@
-package com.goosby.jenkins.model.job;
+package com.goosby.jenkins.model.jobdetail;
 
 import java.util.List;
 
-public class Actions {
+public class Property {
+	
 	
 	private List<ParameterDefinitions> parameterDefinitions ;
 
@@ -12,4 +13,7 @@ public class Actions {
 	public List<ParameterDefinitions> getParameterDefinitions(){
 		return this.parameterDefinitions;
 	}
+	
+	
+	
 }

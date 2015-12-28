@@ -1,4 +1,4 @@
-package com.goosby.jenkins.model.job;
+package com.goosby.jenkins.model.jobdetail;
 
 public class ParameterDefinitions {
 	private DefaultParameterValue defaultParameterValue;

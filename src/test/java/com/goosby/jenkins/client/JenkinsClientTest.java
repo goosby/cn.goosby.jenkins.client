@@ -7,11 +7,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.alibaba.fastjson.JSON;
-import com.goosby.jenkins.model.job.JenkinsJob;
+import com.goosby.jenkins.model.jobdetail.JenkinsJob;
 
 public class JenkinsClientTest {
 	public static JenkinsClient client;
-	public static String URL = "http://localhost:8080";
+	public static String URL = "http://192.168.138.62:8081/jenkins";
 	
 	
 	
@@ -30,7 +30,6 @@ public class JenkinsClientTest {
 	@Test
 	public void testGetJobDetailJSON(){
 		String result = client.getJobDetailJSON("test-git");
-		System.out.println(result);
 		JenkinsJob jenkinsJob = JSON.parseObject(result,JenkinsJob.class);
 		assertNotNull(jenkinsJob);
 	}
@@ -42,5 +41,16 @@ public class JenkinsClientTest {
 		
 	}
 	
+	@Test
+	public void testGetBuildDetails(){
+		String result = client.getBuildDetails("INFS_CAP_PE_INTERFACE", 2247l);
+		System.out.println(result);
+	}
+	
+	@Test
+	public void testIsBuilding(){
+		boolean result = client.isBuilding("INFS_CAP_PE_INTERFACE", 2247l);
+		System.out.println(result);
+	}
 	
 }

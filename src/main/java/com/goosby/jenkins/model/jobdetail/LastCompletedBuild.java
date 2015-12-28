@@ -1,6 +1,6 @@
-package com.goosby.jenkins.model.job;
+package com.goosby.jenkins.model.jobdetail;
 
-public class FirstBuild {
+public class LastCompletedBuild {
 	private int number;
 
 	private String url;
@@ -17,4 +17,7 @@ public class FirstBuild {
 	public String getUrl(){
 		return this.url;
 	}
+	
+	
+	
 }

@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import com.goosby.jenkins.client.utils.XmlUtil;
 import com.goosby.jenkins.httpclient.HttpClient;
 import com.goosby.jenkins.httpclient.JenkinsResponse;
+import com.goosby.jenkins.model.builddetail.BuildDetail;
 
 public class JenkinsClient {
 	
@@ -30,9 +32,6 @@ public class JenkinsClient {
 		}else{
 			jenkinsURL = url;
 		}
-	}
-	
-	public static void main(String[] args){
 	}
 	
 	/**
@@ -88,9 +87,6 @@ public class JenkinsClient {
 	/**
 	 * POST
 	 * 		复制job	jenkinsBaseURL + "/createItem"
-	 * NameValuePair n1 = new NameValuePair("name", newJobName);
-		NameValuePair n2 = new NameValuePair("mode", "copy");
-		NameValuePair n3 = new NameValuePair("from", originJobName);
 	 * @param originJobName
 	 * @param newJobName	
 	 * @return
@@ -206,13 +202,13 @@ public class JenkinsClient {
 	};
 	
 	/**
-	 * 获取构建信息
+	 * 获取指定构建编号JOB的构建信息
 	 * @param jobName
 	 * @param buildNumber
 	 * @return
 	 */
 	public String getBuildDetails(String jobName, long buildNumber){
-		String url = jenkinsURL + "/job/" + jobName + "/" + buildNumber;
+		String url = jenkinsURL + "/job/" + jobName + "/" + buildNumber + "/api/json";
 		JenkinsResponse response = HttpClient.getWithOutParameter(url);
 		return response.getResponseBody();
 	}
@@ -224,8 +220,9 @@ public class JenkinsClient {
 	 * @return
 	 */
 	public boolean isBuilding(String jobName,long buildNumber){
-		
-		return true;
+		String result = this.getBuildDetails(jobName, buildNumber);
+		BuildDetail buildDetail = JSON.parseObject(result, BuildDetail.class);
+		return buildDetail.getBuilding();
 	}
 	
 	
@@ -241,8 +238,8 @@ public class JenkinsClient {
 	};
 	
 	/**
-	 * 可以已json的格式获取，／api/json
-	 * POST
+	 * 可以已json的格式获取
+	 * POST		"／api/json"
 	 * @return
 	 */
 	public String getApiXml(){
