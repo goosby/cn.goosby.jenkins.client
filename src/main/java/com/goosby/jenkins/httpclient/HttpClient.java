@@ -118,6 +118,11 @@ public class HttpClient {
 		return new JenkinsResponse(code,jenkinsResponse);
 	}
 	
+	/**
+	 * 
+	 * @param url
+	 * @return
+	 */
 	public static JenkinsResponse postWithOutParameters(String url){
 		httpClient = HttpClientBuilder.create().build();
 		int code = 0;
