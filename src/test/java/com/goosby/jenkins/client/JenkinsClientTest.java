@@ -73,12 +73,10 @@ public class JenkinsClientTest {
 			String actions = array.get(i).toString();
 			JSONObject action = JSON.parseObject(actions);
 			long id = action.getLongValue("id");
-			client.cancelQueueJobByid(id);
+			client.cancelQueueJobById(id);
 		}
 		
 	}
-	
-	
 	@Test
 	public void testGetAllJobs(){
 		List<String> list = client.getAllJobs();

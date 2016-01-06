@@ -230,7 +230,7 @@ public class JenkinsClient {
 	 * @param itemId
 	 * @return
 	 */
-	public boolean cancelQueueJobByid(long id){
+	public boolean cancelQueueJobById(long id){
 		String url = jenkinsURL + "/queue/cancelItem";
 		Map<String,String> parameters = new HashMap<String,String>();
 		parameters.put("id", String.valueOf(id));
