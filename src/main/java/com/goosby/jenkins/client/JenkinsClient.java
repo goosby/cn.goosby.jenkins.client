@@ -216,7 +216,7 @@ public class JenkinsClient {
 	 * 		GET 	jenkinsURL + "/queue/api/json"
 	 * @return
 	 */
-	public String getQueueJobItems(){
+	public String getQueueJobs(){
 		String url = jenkinsURL + "/queue/api/json";
 		JenkinsResponse response = HttpClient.getWithOutParameter(url);
 		return response.getResponseBody();
@@ -224,8 +224,8 @@ public class JenkinsClient {
 	
 	
 	/**
-	 * GET
-	 * 	取消任务队列（排队）中的job
+	 * POST
+	 * 		取消任务队列（排队）中的job
 	 * /queue/cancelItem?id=" + itemId
 	 * @param itemId
 	 * @return
@@ -234,8 +234,8 @@ public class JenkinsClient {
 		String url = jenkinsURL + "/queue/cancelItem";
 		Map<String,String> parameters = new HashMap<String,String>();
 		parameters.put("id", String.valueOf(id));
-		JenkinsResponse response = HttpClient.getWithParameters(url, parameters);
-		return (200 == response.getResponseCode()) ? true : false;
+		JenkinsResponse response = HttpClient.postWithParameters(url, parameters);
+		return (302 == response.getResponseCode()) ? true : false;
 	}
 	
 	/**

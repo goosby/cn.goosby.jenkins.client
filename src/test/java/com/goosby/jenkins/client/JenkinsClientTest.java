@@ -8,6 +8,10 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
 public class JenkinsClientTest {
 	public static JenkinsClient client;
 	public static String URL = "http://192.168.138.62:8081/jenkins";
@@ -49,11 +53,29 @@ public class JenkinsClientTest {
 		boolean result = client.isBuilding("MA_CPS_NJ_MRS", 1777l);
 		assertTrue(result);
 	}
+	@Test
+	public void testGetQueueJobItems(){
+		String result = client.getQueueJobs();
+		assertNotNull(result);
+		JSONObject jsonObject = JSON.parseObject(result);
+		JSONArray array = jsonObject.getJSONArray("items");
+		System.out.println(array.size());
+	}
+	
 	
 	@Test
 	public void testCancelQueueJob(){
-		boolean response = client.cancelQueueJobByid(1505);
-		assertTrue(response);
+		String result = client.getQueueJobs();
+		JSONObject jsonObject = JSON.parseObject(result);
+		JSONArray array = jsonObject.getJSONArray("items");
+		assertNotNull(array);
+		for(int i=0;i<array.size();i++){
+			String actions = array.get(i).toString();
+			JSONObject action = JSON.parseObject(actions);
+			long id = action.getLongValue("id");
+			client.cancelQueueJobByid(id);
+		}
+		
 	}
 	
 	
