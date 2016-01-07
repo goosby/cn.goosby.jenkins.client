@@ -50,7 +50,7 @@ public class JenkinsClient {
 	 * @param viewName
 	 * @return
 	 */
-	public boolean createView(String viewName){
+	public boolean createListView(String viewName){
 		String url = jenkinsURL + "/createView";
 		Map<String,String> params = new HashMap<String,String>();
 		params.put("name", viewName);
@@ -182,7 +182,7 @@ public class JenkinsClient {
 	 * @param jobName
 	 * @return
 	 */
-	public  boolean buidlJob(String jobName){
+	public  boolean triggerJob(String jobName){
 		String url = jenkinsURL+"/job/" + jobName + "/build";
 		JenkinsResponse response = HttpClient.postWithOutParameters(url);
 		return (201 == response.getResponseCode()) ? true : false;
@@ -194,14 +194,15 @@ public class JenkinsClient {
 	 * @param parameters
 	 * @return
 	 */
-	public  boolean buildJobWithParameters(String jobName,Map<String,String> parameters){
+	public  boolean triggerJobWithParameters(String jobName,Map<String,String> parameters){
 		String url = jenkinsURL + "/job/"+ jobName+ "/buildWithParameters";
 		JenkinsResponse response = HttpClient.getWithParameters(url, parameters);
 		return (200 == response.getResponseCode()) ? true : false;
 	};
 	
 	/**
-	 * 获取指定构建编号JOB的构建信息
+	 * 获取指定构建编号JOB的构建信息</br>
+	 * 		<code> GET 	jenkinsURL + "/job/" + jobName + "/" + buildNumber + "/api/json"</code>
 	 * @param jobName
 	 * @param buildNumber
 	 * @return
@@ -211,6 +212,19 @@ public class JenkinsClient {
 		JenkinsResponse response = HttpClient.getWithOutParameter(url);
 		return response.getResponseBody();
 	}
+	
+	/**
+	 * 	获取view下所有的jobs</br>
+	 * 		<code>GET jenkinsURL+"/view/MA/api/json"</code>
+	 * @param viewName
+	 * @return
+	 */
+	public String getJobsWithView(String viewName){
+		String url = jenkinsURL + "/view/"+viewName + "/api/json";
+		JenkinsResponse response = HttpClient.getWithOutParameter(url);
+		return response.getResponseBody();
+	}
+	
 	/**
 	 * 获取正在队列中等待构建的JOB
 	 * 		GET 	jenkinsURL + "/queue/api/json"
@@ -220,6 +234,17 @@ public class JenkinsClient {
 		String url = jenkinsURL + "/queue/api/json";
 		JenkinsResponse response = HttpClient.getWithOutParameter(url);
 		return response.getResponseBody();
+	}
+	
+	/**
+	 * 根据JOBNAME获取最后一次构建的结果状态
+	 * @param jobName
+	 * @return
+	 */
+	public String getLastBuildStatus(String jobName){
+		String url = jenkinsURL + "/job/"+ jobName +"/api/json";
+		JenkinsResponse response = HttpClient.getWithOutParameter(url);
+		return JSON.parseObject(response.getResponseBody()).getString("color");
 	}
 	
 	
@@ -237,6 +262,19 @@ public class JenkinsClient {
 		JenkinsResponse response = HttpClient.postWithParameters(url, parameters);
 		return (302 == response.getResponseCode()) ? true : false;
 	}
+	
+	/**
+	 * 根据JOBNAME检查JOB是否存在
+	 * 		
+	 * @param jobName
+	 * @return
+	 */
+	public boolean jobIsExists(String jobName){
+		String url = jenkinsURL + "/job/" + jobName +"/api/json";
+		JenkinsResponse response = HttpClient.getWithOutParameter(url);
+		return (200 == response.getResponseCode()) ? true : false;
+	}
+	
 	
 	/**
 	 *  检查job是否正在构建

@@ -3,7 +3,9 @@ package com.goosby.jenkins.client;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -24,8 +26,8 @@ public class JenkinsClientTest {
 	
 	
 	@Test
-	public void testBuidlJob(){
-		boolean result = client.buidlJob("test-git");
+	public void testTriggerJob(){
+		boolean result = client.triggerJob("test-git");
 		assertTrue(result);
 	}
 	
@@ -55,13 +57,12 @@ public class JenkinsClientTest {
 	}
 	@Test
 	public void testGetQueueJobItems(){
-		String result = client.getQueueJobs();
-		assertNotNull(result);
-		JSONObject jsonObject = JSON.parseObject(result);
-		JSONArray array = jsonObject.getJSONArray("items");
-		System.out.println(array.size());
+			String result = client.getQueueJobs();
+			assertNotNull(result);
+			JSONObject jsonObject = JSON.parseObject(result);
+			JSONArray array = jsonObject.getJSONArray("items");
+			System.out.println(array.size());
 	}
-	
 	
 	@Test
 	public void testCancelQueueJob(){
@@ -82,4 +83,23 @@ public class JenkinsClientTest {
 		List<String> list = client.getAllJobs();
 		assertTrue(list.size() > 0);
 	}
+	
+	@Test
+	public void testCopyJob(){
+		boolean result = client.copyJob("qa_ta_springdemo", "qa_ta_springdemo_copy");
+		assertTrue(result);
+	}
+	
+	@Test
+	public void tsetCopyJobAndtrigger(){
+		boolean result = client.copyJob("qa_ta_springdemo", "qa_ta_springdemo_copy");
+		assertTrue(result);
+		Map<String,String> parameters = new HashMap<String,String>();
+		parameters.put("ID_TA_TASK", "000000");
+		parameters.put("STAGE_ID", "stage2");
+		parameters.put("GROUP_ID", "GROUP_ID");
+		boolean trigger = client.triggerJobWithParameters("qa_ta_springdemo_copy",parameters);
+		assertTrue(trigger);
+	}
+	
 }
