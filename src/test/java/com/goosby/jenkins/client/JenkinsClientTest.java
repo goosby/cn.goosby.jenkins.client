@@ -57,11 +57,11 @@ public class JenkinsClientTest {
 	}
 	@Test
 	public void testGetQueueJobItems(){
-			String result = client.getQueueJobs();
-			assertNotNull(result);
-			JSONObject jsonObject = JSON.parseObject(result);
-			JSONArray array = jsonObject.getJSONArray("items");
-			System.out.println(array.size());
+		String result = client.getQueueJobs();
+		assertNotNull(result);
+		JSONObject jsonObject = JSON.parseObject(result);
+		JSONArray array = jsonObject.getJSONArray("items");
+		System.out.println(array.size());
 	}
 	
 	@Test
