@@ -2,7 +2,7 @@
 # 一、说明 #
 
 ## 1.包含jenkins所有api的调用方法 ##
-	创建job，更新job，触发job等共28个远程调用接口，没有包含的请各位完善。
+	创建job，更新job，触发job等共28个远程调用接口，没有包含的请有心人士完善。
 ## 2.使用该API前请在项目中引入以下两个jar包。 ##
 	<dependency>
 		<groupId>org.apache.httpcomponents</groupId>
