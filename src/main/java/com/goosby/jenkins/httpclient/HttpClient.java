@@ -25,6 +25,7 @@ import org.apache.http.util.EntityUtils;
 public class HttpClient {
 	
 	public static CloseableHttpClient httpClient;
+	public static final String CHARSET_UTF8="UTF-8";
 	
 	/**
 	 * @param url
@@ -48,7 +49,7 @@ public class HttpClient {
 				response = httpClient.execute(method);
 				if(response != null){
 					code = response.getStatusLine().getStatusCode();
-					jenkinsResponse = EntityUtils.toString(response.getEntity());//.toString();
+					jenkinsResponse = EntityUtils.toString(response.getEntity(),CHARSET_UTF8);//.toString();
 				}
 			} catch (ClientProtocolException e) {
 				e.printStackTrace();
@@ -91,7 +92,7 @@ public class HttpClient {
 		}
 		UrlEncodedFormEntity entity = null;
 		try {
-			entity = new UrlEncodedFormEntity(list,"UTF-8");
+			entity = new UrlEncodedFormEntity(list,CHARSET_UTF8);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -133,7 +134,7 @@ public class HttpClient {
 			response = httpClient.execute(method);
 			if(response != null){
 				code = response.getStatusLine().getStatusCode();
-				jenkinsResponse = EntityUtils.toString(response.getEntity());
+				jenkinsResponse = EntityUtils.toString(response.getEntity(),CHARSET_UTF8);
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
@@ -158,7 +159,7 @@ public class HttpClient {
 			response = httpClient.execute(method);
 			if(response != null){
 				code = response.getStatusLine().getStatusCode();
-				jenkinsResponse = EntityUtils.toString(response.getEntity());//.toString();
+				jenkinsResponse = EntityUtils.toString(response.getEntity(),CHARSET_UTF8);//.toString();
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
@@ -201,7 +202,7 @@ public class HttpClient {
 			response = httpClient.execute(method);
 			if(response != null){
 				code = response.getStatusLine().getStatusCode();
-				jenkinsResponse = EntityUtils.toString(response.getEntity());;
+				jenkinsResponse = EntityUtils.toString(response.getEntity(),CHARSET_UTF8);;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

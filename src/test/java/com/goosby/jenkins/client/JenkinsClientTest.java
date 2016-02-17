@@ -91,7 +91,7 @@ public class JenkinsClientTest {
 	}
 	
 	@Test
-	public void tsetCopyJobAndtrigger(){
+	public void testCopyJobAndtrigger(){
 		boolean result = client.copyJob("qa_ta_springdemo", "qa_ta_springdemo_copy");
 		assertTrue(result);
 		Map<String,String> parameters = new HashMap<String,String>();
@@ -100,6 +100,12 @@ public class JenkinsClientTest {
 		parameters.put("GROUP_ID", "GROUP_ID");
 		boolean trigger = client.triggerJobWithParameters("qa_ta_springdemo_copy",parameters);
 		assertTrue(trigger);
+	}
+	
+	@Test
+	public void testGetJobConfigXML(){
+		String result = client.getJobConfigXML("B2B_FO");
+		assertNotNull(result);
 	}
 	
 }

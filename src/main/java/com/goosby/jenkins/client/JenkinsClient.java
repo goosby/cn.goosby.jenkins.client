@@ -341,8 +341,8 @@ public class JenkinsClient {
 	}
 	
 	/**
-	 * GET 	获取jobDetails
-	 * 		jenkinsBaseURL + "job/"+ jobName + "/api/json"
+	 * GET 	获取JobDetails
+	 * 		jenkinsBaseURL + "/job/"+ jobName + "/api/json"
 	 * @param jobName
 	 * @return
 	 */
@@ -351,6 +351,18 @@ public class JenkinsClient {
 		JenkinsResponse response = HttpClient.getWithOutParameter(url);
 		return response.getResponseBody();
 	};
+	
+	/**
+	 * GET 获取job的配置信息(config.xml)
+	 * 		jenkinsBaseURL + "/job/"+ jobName + "/config.xml"
+	 * @param jobName
+	 * @return
+	 */
+	public String getJobConfigXML(String jobName){
+		String url = jenkinsURL + "/job/" + jobName + "/config.xml";
+		JenkinsResponse response = HttpClient.getWithOutParameter(url);
+		return response.getResponseBody();
+	}
 	
 	/**
 	 * GET  获取jenkins集群信息（主，从信息）
