@@ -80,7 +80,7 @@ public class JenkinsClient {
 		String url = jenkinsURL + "/job/"+ jobName + "/config.xml";
 		JenkinsResponse response = HttpClient.postBodyWithXML(url,updateXml);
 		return (200 == response.getResponseCode() ) ? true : false;
-	};
+	}
 	
 	/**
 	 * POST
@@ -97,7 +97,7 @@ public class JenkinsClient {
 		params.put("from", originJobName);
 		JenkinsResponse response = HttpClient.postWithParameters(url, params);
 		return (302 == response.getResponseCode()) ? true : false;
-	};
+	}
 	
 	/**
 	 * 重命名JOB
@@ -124,7 +124,7 @@ public class JenkinsClient {
 		String url = jenkinsURL + "/job/" + jobName + "/doDelete";
 		JenkinsResponse response = HttpClient.postWithOutParameters(url);
 		return (302 == response.getResponseCode()) ? true : false;
-	};
+	}
 	
 	/**
 	 * 	删除view
@@ -162,7 +162,7 @@ public class JenkinsClient {
 		String url = jenkinsURL + "/job/"+ jobName + "/enable";
 		JenkinsResponse response = HttpClient.postWithOutParameters(url);
 		return (302 == response.getResponseCode()) ? true : false;
-	};
+	}
 	
 	/**
 	 * POST    禁用项目
@@ -174,7 +174,7 @@ public class JenkinsClient {
 		String url = jenkinsURL + "/job/"+ jobName + "/disable";
 		JenkinsResponse response = HttpClient.postWithOutParameters(url);
 		return (302 == response.getResponseCode()) ? true : false;
-	};
+	}
 	
 	/**
 	 * POST
@@ -186,7 +186,7 @@ public class JenkinsClient {
 		String url = jenkinsURL+"/job/" + jobName + "/build";
 		JenkinsResponse response = HttpClient.postWithOutParameters(url);
 		return (201 == response.getResponseCode()) ? true : false;
-	};
+	}
 	/**
 	 * GET
 	 * jenkinsBaseURL + "/job/"+ jobName+ "/buildWithParameters?param1=value1
@@ -198,7 +198,7 @@ public class JenkinsClient {
 		String url = jenkinsURL + "/job/"+ jobName+ "/buildWithParameters";
 		JenkinsResponse response = HttpClient.getWithParameters(url, parameters);
 		return (200 == response.getResponseCode()) ? true : false;
-	};
+	}
 	
 	/**
 	 * 获取指定构建编号JOB的构建信息</br>
@@ -297,7 +297,7 @@ public class JenkinsClient {
 		String url = jenkinsURL + "/job/" + jobName + "/" + buildNumber + "/stop";
 		JenkinsResponse response = HttpClient.postWithOutParameters(url);
 		return (302 == response.getResponseCode()) ? true : false;
-	};
+	}
 	
 	/**
 	 * 获取jenkins的信息
@@ -350,7 +350,7 @@ public class JenkinsClient {
 		String url = jenkinsURL + "/job/" + jobName + "/api/json";
 		JenkinsResponse response = HttpClient.getWithOutParameter(url);
 		return response.getResponseBody();
-	};
+	}
 	
 	/**
 	 * GET 获取job的配置信息(config.xml)
@@ -373,6 +373,6 @@ public class JenkinsClient {
 		String url = jenkinsURL + "/computer/api/json";
 		JenkinsResponse response = HttpClient.getWithOutParameter(url);
 		return response.getResponseBody();
-	};
+	}
 	
 }
