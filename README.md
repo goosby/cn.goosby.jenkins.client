@@ -15,7 +15,7 @@
 		<artifactId>fastjson</artifactId>
 		<version>1.2.7</version>
 	</dependency>
-## 3.签出代码后执行下面命令，保证maven库中有上面两个jar包 ##
+## 3.签出代码后执行下面命令(保证maven库中有上面两个jar包) ##
 	mvn package -X
 ## 4.最后将生成的*com.goosby.jenkins.client-0.0.1-SNAPSHOT.jar*引入到项目中 ##
 	<dependency>
