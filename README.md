@@ -5,6 +5,11 @@
 	创建job，更新job，触发job等共28个远程调用接口，没有包含的请各位完善。
 ## 2.使用该API前请在项目中引入以下两个jar包。 ##
 	<dependency>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>httpclient</artifactId>
+		<version>4.5.1</version>
+	</dependency>
+	<dependency>
 		<groupId>junit</groupId>
 		<artifactId>junit</artifactId>
 		<version>4.11</version>
@@ -15,7 +20,7 @@
 		<artifactId>fastjson</artifactId>
 		<version>1.2.7</version>
 	</dependency>
-## 3.签出代码后执行下面命令(保证maven库中有上面两个jar包) ##
+## 3.签出代码后执行下面命令(保证maven库中有上面三个jar包) ##
 	mvn package -X
 ## 4.最后将生成的*com.goosby.jenkins.client-0.0.1-SNAPSHOT.jar*引入到项目中 ##
 	<dependency>
