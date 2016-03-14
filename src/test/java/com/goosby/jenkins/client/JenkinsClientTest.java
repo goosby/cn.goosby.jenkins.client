@@ -107,5 +107,22 @@ public class JenkinsClientTest {
 		String result = client.getJobConfigXML("B2B_FO");
 		assertNotNull(result);
 	}
-	
+	@Test
+	public void testGetAndDelete(){
+		List<String> jobList = client.getAllJobs();
+		assertNotNull(jobList);
+		assertTrue(jobList.size() > 0);
+		System.out.println(jobList.size());
+		for(String jsonStr : jobList){
+			assertNotNull(jsonStr);
+			JSONObject json = JSON.parseObject(jsonStr);
+			String jobName = json.getString("name");
+			assertNotNull(jobName);
+			if(jobName.startsWith("w")){
+				boolean  result = client.deleteJob(jobName);
+				assertTrue(result);
+				System.out.println("---- --- -- - delete job "+jobName+ " success!");
+			}
+		}
+	}
 }
