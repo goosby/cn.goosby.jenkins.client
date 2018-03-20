@@ -25,7 +25,7 @@ import org.apache.http.util.EntityUtils;
 
 public class HttpClient {
 
-	public static final String CHARSET_UTF8="UTF-8";
+	private static final String CHARSET_UTF8="UTF-8";
 	private static final int TIME_OUT = 2000;
 	private static RequestConfig requestConfig = RequestConfig.custom()
 			.setExpectContinueEnabled(true)

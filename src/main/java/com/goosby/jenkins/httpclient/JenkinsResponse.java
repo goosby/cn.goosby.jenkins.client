@@ -1,12 +1,26 @@
 package com.goosby.jenkins.httpclient;
 
-public class JenkinsResponse {
+import java.io.Serializable;
+
+public class JenkinsResponse implements Serializable{
 	
 	private int responseCode;
 	
 	private String responseBody;
 
-	public JenkinsResponse(int responseCode,String responseBody){
+	public JenkinsResponse() {
+
+	}
+
+	public JenkinsResponse(int responseCode) {
+		this.responseCode = responseCode;
+	}
+
+	public JenkinsResponse(String responseBody) {
+		this.responseBody = responseBody;
+	}
+
+	public JenkinsResponse(int responseCode, String responseBody){
 		this.responseCode = responseCode;
 		this.responseBody = responseBody;
 	}
