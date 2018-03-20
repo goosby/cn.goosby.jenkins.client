@@ -1,4 +1,4 @@
-package com.goosby.jenkins.utils;
+package cn.goosby.jenkins.utils;
 
 import java.io.ByteArrayOutputStream;
 

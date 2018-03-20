@@ -1,4 +1,4 @@
-package com.goosby.jenkins.httpclient;
+package cn.goosby.jenkins.httpclient;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;

@@ -1,12 +1,12 @@
-package com.goosby.jenkins.client;
+package cn.goosby.jenkins.client;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.goosby.jenkins.httpclient.JenkinsResponse;
 import com.alibaba.fastjson.JSON;
-import com.goosby.jenkins.httpclient.HttpClient;
-import com.goosby.jenkins.httpclient.JenkinsResponse;
+import cn.goosby.jenkins.httpclient.HttpClient;
 
 public class JenkinsClient {
 	

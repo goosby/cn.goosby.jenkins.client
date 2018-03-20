@@ -1,4 +1,4 @@
-package com.goosby.jenkins.client;
+package cn.goosby.jenkins.client;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
