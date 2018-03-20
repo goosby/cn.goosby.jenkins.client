@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -23,17 +24,23 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
 
 public class HttpClient {
-	
-	public static CloseableHttpClient httpClient;
+
 	public static final String CHARSET_UTF8="UTF-8";
-	
+	private static final int TIME_OUT = 2000;
+	private static RequestConfig requestConfig = RequestConfig.custom()
+			.setExpectContinueEnabled(true)
+			.setSocketTimeout(TIME_OUT)
+			.setConnectTimeout(TIME_OUT)
+			.setConnectionRequestTimeout(TIME_OUT)
+			.build();
+
 	/**
 	 * @param url
 	 * @param parameters
 	 * @return
 	 */
 	public static JenkinsResponse getWithParameters(String url,Map<String,String> parameters){
-		httpClient = HttpClientBuilder.create().build();
+		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 		HttpGet method = null;
 		int code = 0;
 		String jenkinsResponse = null;
@@ -44,6 +51,7 @@ public class HttpClient {
 			}else{
 				method = new HttpGet(url + "?" + requestParameter);
 			}
+			method.setConfig(requestConfig);
 			CloseableHttpResponse response = null;
 			try {
 				response = httpClient.execute(method);
@@ -71,15 +79,15 @@ public class HttpClient {
 		}
 		return new JenkinsResponse(code,jenkinsResponse);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param url
 	 * @param parameters
 	 * @return
 	 */
 	public static JenkinsResponse postWithParameters(String url,Map<String,String> parameters){
-		httpClient = HttpClientBuilder.create().build();
+		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 		int code = 0;
 		String jenkinsResponse = null;
 		List<NameValuePair> list = new ArrayList<NameValuePair>();
@@ -97,6 +105,7 @@ public class HttpClient {
 			e.printStackTrace();
 		}
 		HttpPost method = new HttpPost(url);
+		method.setConfig(requestConfig);
 		method.setEntity(entity);
 		CloseableHttpResponse response = null;
 		try {
@@ -118,17 +127,18 @@ public class HttpClient {
 		}
 		return new JenkinsResponse(code,jenkinsResponse);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param url
 	 * @return
 	 */
 	public static JenkinsResponse postWithOutParameters(String url){
-		httpClient = HttpClientBuilder.create().build();
+		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 		int code = 0;
 		String jenkinsResponse = null;
 		HttpPost method = new HttpPost(url);
+		method.setConfig(requestConfig);
 		CloseableHttpResponse response = null;
 		try {
 			response = httpClient.execute(method);
@@ -143,17 +153,18 @@ public class HttpClient {
 		}
 		return new JenkinsResponse(code,jenkinsResponse);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param url
 	 * @return
 	 */
 	public static JenkinsResponse getWithOutParameter(String url){
-		httpClient = HttpClientBuilder.create().build();
+		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 		int code = 0;
 		String jenkinsResponse = null;
 		HttpGet method = new HttpGet(url);
+		method.setConfig(requestConfig);
 		CloseableHttpResponse  response = null;
 		try {
 			response = httpClient.execute(method);
@@ -180,18 +191,19 @@ public class HttpClient {
 		}
 		return new JenkinsResponse(code,jenkinsResponse);
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param url
 	 * @param xmlBody
 	 * @return
 	 */
 	public static JenkinsResponse postBodyWithXML(String url,String xmlBody){
-		httpClient = HttpClientBuilder.create().build();
+		CloseableHttpClient httpClient = HttpClientBuilder.create().build();
 		int code = 0;
 		String jenkinsResponse = null;
 		HttpPost method = new HttpPost(url);
+		method.setConfig(requestConfig);
 		StringEntity entity = null;
 		CloseableHttpResponse response = null;
 		try {
@@ -221,12 +233,12 @@ public class HttpClient {
 		}
 		return new JenkinsResponse(code,jenkinsResponse);
 	}
-	
+
 	private static String buildParameters(Map<String,String> parameters){
 		StringBuilder builder = new StringBuilder();
 		if(parameters != null && parameters.size() > 0){
 			for(Iterator<Entry<String, String>>  iterator = parameters.entrySet().iterator(); iterator.hasNext();){
-				Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next(); 
+				Map.Entry<String, String> entry = (Map.Entry<String, String>) iterator.next();
 				String key =  entry.getKey();
 				String value = entry.getValue();
 				builder.append(key + "=" + value + "&");
