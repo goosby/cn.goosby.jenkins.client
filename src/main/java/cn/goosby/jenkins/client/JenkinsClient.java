@@ -252,7 +252,7 @@ public class JenkinsClient {
 	 * POST
 	 * 		取消任务队列（排队）中的job
 	 * /queue/cancelItem?id=" + itemId
-	 * @param itemId
+	 * @param  id jenkins上的itemID
 	 * @return
 	 */
 	public boolean cancelQueueJobById(long id){
